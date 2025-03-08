@@ -30,7 +30,7 @@ int main(int argc, char **argv) {
 
             uint16_t expected_result;  // Variable for expected result
             bool expected_cout = false;
-            bool expected_cmp = (A == B);
+            bool expected_cmp = false;
 
             // Logic operations
             if (Mode == 1) {
@@ -76,6 +76,7 @@ int main(int argc, char **argv) {
                 }
                 expected_result = result & 0xFFFF;  // Truncate to 16 bits
                 expected_cout = (result >> 16) & 1; // Extract carry-out bit
+                expected_cmp = A == B;
             }
 
             // Check output
