@@ -57,10 +57,9 @@ module Arithmetic (
     output wire COut
 );
     reg [16:0] result;
-    wire [16:0] a;
-    wire [16:0] b;
-    assign a = {1'b0, A};
-    assign b = {1'b0, B};
+    wire [16:0] a = {1'b0, A};
+    wire [16:0] b = {1'b0, B};
+
     always @(*) begin
         case (Sel)
             4'b0000: result = a;
