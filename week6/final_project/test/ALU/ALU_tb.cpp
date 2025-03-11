@@ -4,7 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 
-#define NUM_TESTS 1000
+#define NUM_TESTS 1000000
 
 int main(int argc, char **argv) {
     Verilated::commandArgs(argc, argv);
@@ -63,16 +63,16 @@ int main(int argc, char **argv) {
                     case 0x3: result = 0xFFFF; break;
                     case 0x4: result = A | (A & ~B); break;
                     case 0x5: result = (A | B) + (A & ~B) + CIn; break;
-                    case 0x6: result = A - B - 1 + CIn; break;
-                    case 0x7: result = (A & ~B) - 1 + CIn; break;
+                    case 0x6: result = A - B - 1; break;
+                    case 0x7: result = (A & ~B) - 1; break;
                     case 0x8: result = A + (A & B) + CIn; break;
                     case 0x9: result = A + B + CIn; break;
                     case 0xA: result = (A | ~B) + (A & B) + CIn; break;
-                    case 0xB: result = (A & B) - 1 + CIn; break;
+                    case 0xB: result = (A & B) - 1; break;
                     case 0xC: result = A + A + CIn; break;
                     case 0xD: result = (A | B) + A + CIn; break;
                     case 0xE: result = (A | ~B) + A + CIn; break;
-                    case 0xF: result = A - 1 + CIn; break;
+                    case 0xF: result = A - 1; break;
                 }
                 expected_result = result & 0xFFFF;  // Truncate to 16 bits
                 expected_cout = (result >> 16) & 1; // Extract carry-out bit
