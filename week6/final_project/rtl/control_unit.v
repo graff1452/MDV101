@@ -57,25 +57,12 @@ module moduleName (
                 en_5 = 0;
                 en_6 = 0;
                 en_7 = 0;
-                mode = 0;
-                sel = 0;
-                mux_sel = 0;
                 done = 0;
             end
             B: begin
                 en_s = 1;
                 en_c = 0;
                 en_i = 0;
-                en_0 = 0;
-                en_1 = 0;
-                en_2 = 0;
-                en_3 = 0;
-                en_4 = 0;
-                en_5 = 0;
-                en_6 = 0;
-                en_7 = 0;
-                mode = 0;
-                sel = 0;
                 mux_sel = {1'b0, Rx};
                 done = 0;
             end
@@ -83,34 +70,14 @@ module moduleName (
                 en_s = 0;
                 en_c = 1;
                 en_i = 0;
-                en_0 = 0;
-                en_1 = 0;
-                en_2 = 0;
-                en_3 = 0;
-                en_4 = 0;
-                en_5 = 0;
-                en_6 = 0;
-                en_7 = 0;
-                mode = 0;
                 sel = ALU_sel;
                 mux_sel = {1'b0, Ry};
                 done = 0;
             end
             D: begin
-                en_s = 0;
+                en_s = 1;
                 en_c = 0;
                 en_i = 0;
-                en_0 = 0;
-                en_1 = 0;
-                en_2 = 0;
-                en_3 = 0;
-                en_4 = 0;
-                en_5 = 0;
-                en_6 = 0;
-                en_7 = 0;
-                mode = 0;
-                sel = 0;
-                mux_sel = 0;
                 done = 1;
             end
         endcase
