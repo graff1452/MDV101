@@ -1,5 +1,5 @@
 #include <verilated.h>
-#include "VALU.h"
+#include "Valu.h"
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
@@ -8,12 +8,14 @@
 
 int main(int argc, char **argv) {
     Verilated::commandArgs(argc, argv);
-    VALU* alu = new VALU;  // Instantiate the ALU module
+    Valu* alu = new Valu;  // Instantiate the ALU module
 
     std::srand(std::time(nullptr));  // Seed for random values
 
-    for (int sel = 0; sel < 16; sel++) {   // Loop through all Sel values
-        for (int test = 0; test < NUM_TESTS; test++) {
+    for (int sel = 0; sel < 16; sel++) // Loop through all Sel values 
+    {
+        for (int test = 0; test < NUM_TESTS; test++) 
+        {
             uint16_t A = std::rand() & 0xFFFF;  // Generate random 16-bit A
             uint16_t B = std::rand() & 0xFFFF;  // Generate random 16-bit B
             int Mode = std::rand() % 2;        // Randomly choose Logic (1) or Arithmetic mode (0)
@@ -54,7 +56,8 @@ int main(int argc, char **argv) {
                 }
             }
             // Arithmetic operations
-            else {
+            else 
+            {
                 int32_t result = 0;
                 switch (sel) {
                     case 0x0: result = A; break;
@@ -80,7 +83,8 @@ int main(int argc, char **argv) {
             }
 
             // Check output
-            if (alu->ALUOut != expected_result || alu->COut != expected_cout || alu->Cmp != expected_cmp) {
+            if (alu->ALUOut != expected_result || alu->COut != expected_cout || alu->Cmp != expected_cmp) 
+            {
                 std::cout << "Mismatch at Sel=" << sel
                           << " A=" << A << " B=" << B
                           << " Mode=" << Mode << " CIn=" << CIn
@@ -95,7 +99,7 @@ int main(int argc, char **argv) {
         }
     }
 
-    std::cout << "Testbench completed." << std::endl;
+    std::cout << "ALU Testbench completed." << std::endl;
     delete alu;
     return 0;
 }

@@ -13,9 +13,9 @@ int main(int argc, char** argv)
 
     std::srand(std::time(nullptr));  // Seed for random values
 
-    for (size_t sel = 0; sel < 16; sel++) // Going through all possible selector values
+    for (int sel = 0; sel < 16; sel++) // Going through all possible selector values
     {
-        for (size_t test = 0; test < NUM_TESTS; test++) // Number of tests in each selected value for selector
+        for (int test = 0; test < NUM_TESTS; test++) // Number of tests in each selected value for selector
         {
 
             uint16_t in_0 = std::rand() & 0xFFFF; // Random 16-bit values

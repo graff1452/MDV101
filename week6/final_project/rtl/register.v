@@ -3,18 +3,20 @@ module register (
     input wire reset,
     input wire clk,
     input wire en,
-    output reg [15:0] d_out
+    output wire [15:0] d_out
 );
-
+    reg [15:0] reg_d_out;
     always @(posedge clk) begin
-        if (reset) begin
-            d_out <= 16'h0000;
+        if (reset) 
+        begin
+            reg_d_out <= 16'h0000;
         end
-        else begin
+        else 
+        begin
             if (en) begin
-                d_out <= d_in;
+                reg_d_out <= d_in;
             end
         end
     end
-
+    assign d_out = reg_d_out;
 endmodule

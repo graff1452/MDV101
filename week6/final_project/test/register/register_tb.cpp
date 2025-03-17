@@ -18,7 +18,7 @@ int main(int argc, char** argv)
     int clk;
     int en;
     uint16_t d_out;
-    for (size_t test = 0; test < NUM_TESTS; test++) 
+    for (int test = 0; test < NUM_TESTS; test++) 
     {
         d_in = std::rand() & 0xFFFF;
         reset = std::rand() % 2;
@@ -49,4 +49,7 @@ int main(int argc, char** argv)
         }
     }
 
+    std::cout << "register Testbench completed." << std::endl;
+    delete myRegister;
+    return 0;
 }
