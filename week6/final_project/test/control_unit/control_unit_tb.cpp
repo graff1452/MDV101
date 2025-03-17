@@ -172,49 +172,57 @@ int main(int argc, char** argv)
         case 0b000:
             if ((control_unit->en_0) != 1) 
             {
-                std::cout << "\ten_0 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
+                std::cout << "CicleN4: intsruction = " << std::bitset<16>(control_unit->instruction) << std::endl 
+                          << "\ten_0 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
             }
             break;
         case 0b001:
             if ((control_unit->en_1) != 1) 
             {
-                std::cout << "\ten_1 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
+                std::cout << "CicleN4: intsruction = " << std::bitset<16>(control_unit->instruction) << std::endl 
+                          << "\ten_1 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
             }
             break;
         case 0b010:
             if ((control_unit->en_2) != 1)
             {
-                std::cout << "\ten_2 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
+                std::cout << "CicleN4: intsruction = " << std::bitset<16>(control_unit->instruction) << std::endl 
+                          << "\ten_2 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
             }
             break;
         case 0b011:
             if ((control_unit->en_3) != 1)
             {
-                std::cout << "\ten_3 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
+                std::cout << "CicleN4: intsruction = " << std::bitset<16>(control_unit->instruction) << std::endl 
+                          << "\ten_3 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
             }
             break;
         case 0b100:
             if ((control_unit->en_4) != 1)
             {
-                std::cout << "\ten_4 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
+                std::cout << "CicleN4: intsruction = " << std::bitset<16>(control_unit->instruction) << std::endl 
+                          << "\ten_4 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
             }
             break;
         case 0b101:
             if ((control_unit->en_5) != 1)
             {
-                std::cout << "\ten_5 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
+                std::cout << "CicleN4: intsruction = " << std::bitset<16>(control_unit->instruction) << std::endl 
+                          << "\ten_5 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
             }
             break;
         case 0b110:
             if ((control_unit->en_6) != 1)
             {
-                std::cout << "\ten_6 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
+                std::cout << "CicleN4: intsruction = " << std::bitset<16>(control_unit->instruction) << std::endl 
+                          << "\ten_6 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
             }
             break;
         case 0b111:
             if ((control_unit->en_7) != 1)
             {
-                std::cout << "\ten_7 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
+                std::cout << "CicleN4: intsruction = " << std::bitset<16>(control_unit->instruction) << std::endl 
+                          << "\ten_7 = " << std::bitset<1>(control_unit->en_0) << ", should be 1" << std::endl;
             }
             break;
         default:
