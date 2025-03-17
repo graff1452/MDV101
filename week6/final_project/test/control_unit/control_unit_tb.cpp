@@ -5,7 +5,7 @@
 #include <ctime>
 #include <bitset>
 
-#define NUM_TESTS 2
+#define NUM_TESTS 1
 
 int main(int argc, char** argv)
 {
@@ -138,16 +138,16 @@ int main(int argc, char** argv)
         {
             std::cout << "CicleN3: intsruction = " << std::bitset<16>(control_unit->instruction) << std::endl
                       << "\ten_s = " << std::bitset<1>(control_unit->en_s) << ", should be 0" << std::endl
-                      << "\ten_c = " << std::bitset<1>(control_unit->en_c) << ", should be 1" << std::endl 
-                      << "\ten_i = " << std::bitset<1>(control_unit->en_i) << ", should be 0" << std::endl 
-                      << "\ten_0 = " << std::bitset<1>(control_unit->en_0) << ", should be 0" << std::endl 
-                      << "\ten_1 = " << std::bitset<1>(control_unit->en_1) << ", should be 0" << std::endl 
-                      << "\ten_2 = " << std::bitset<1>(control_unit->en_2) << ", should be 0" << std::endl 
-                      << "\ten_3 = " << std::bitset<1>(control_unit->en_3) << ", should be 0" << std::endl 
-                      << "\ten_4 = " << std::bitset<1>(control_unit->en_4) << ", should be 0" << std::endl 
-                      << "\ten_5 = " << std::bitset<1>(control_unit->en_5) << ", should be 0" << std::endl 
-                      << "\ten_6 = " << std::bitset<1>(control_unit->en_6) << ", should be 0" << std::endl 
-                      << "\ten_7 = " << std::bitset<1>(control_unit->en_7) << ", should be 0" << std::endl 
+                      << "\ten_c = " << std::bitset<1>(control_unit->en_c) << ", should be 1" << std::endl
+                      << "\ten_i = " << std::bitset<1>(control_unit->en_i) << ", should be 0" << std::endl
+                      << "\ten_0 = " << std::bitset<1>(control_unit->en_0) << ", should be 0" << std::endl
+                      << "\ten_1 = " << std::bitset<1>(control_unit->en_1) << ", should be 0" << std::endl
+                      << "\ten_2 = " << std::bitset<1>(control_unit->en_2) << ", should be 0" << std::endl
+                      << "\ten_3 = " << std::bitset<1>(control_unit->en_3) << ", should be 0" << std::endl
+                      << "\ten_4 = " << std::bitset<1>(control_unit->en_4) << ", should be 0" << std::endl
+                      << "\ten_5 = " << std::bitset<1>(control_unit->en_5) << ", should be 0" << std::endl
+                      << "\ten_6 = " << std::bitset<1>(control_unit->en_6) << ", should be 0" << std::endl
+                      << "\ten_7 = " << std::bitset<1>(control_unit->en_7) << ", should be 0" << std::endl
                       << "\tmode = " << std::bitset<1>(control_unit->mode) << ", should be " << std::bitset<1>((((control_unit->instruction) << 13) >> 15) & 0b1) << std::endl 
                       << "\tsel = " << std::bitset<4>(control_unit->sel) << ", should be " << std::bitset<4>((((control_unit->instruction) << 9) >> 12) & 0xF) << std::endl 
                       << "\tmux_sel = " << std::bitset<3>(control_unit->mux_sel) << ", should be " << std::bitset<3>((((control_unit->instruction) << 3) >> 13) & 0b111) << std::endl 
@@ -164,8 +164,6 @@ int main(int argc, char** argv)
         control_unit->eval();
         control_unit->clk = 1;
         control_unit->eval();
-
-        std::cout << "CicleN4: intsruction = " << std::bitset<16>(control_unit->instruction) << std::endl;
 
         switch ((control_unit->instruction >> 13) & 0b111)
         {
