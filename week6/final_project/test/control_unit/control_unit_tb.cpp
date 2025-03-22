@@ -5,7 +5,7 @@
 #include <ctime>
 #include <bitset>
 
-#define NUM_TESTS 1
+#define NUM_TESTS 10000
 
 int main(int argc, char** argv)
 {
@@ -14,22 +14,46 @@ int main(int argc, char** argv)
 
     std::srand(std::time(nullptr));  // Seed for random values
 
-    bool flag = true;
-
     // Initialize signals
     control_unit->run = 1;
     std::cout << "Starting Control Unit Test with " << NUM_TESTS << " iterations.\n";
+
+    bool test_passed = true;
+    int failed_tests = 0;
 
     for (int test = 0; test < NUM_TESTS; test++)
     {
         // Generate a random 16-bit instruction
         control_unit->instruction = std::rand() & 0xFFFF;
 
-        // Cicle 1
+        control_unit->reset = 1;
+        control_unit->run = 0;
+
+        // Evaluate with reset active
         control_unit->clk = 0;
         control_unit->eval();
         control_unit->clk = 1;
         control_unit->eval();
+
+        // Take out of reset, keep run=0
+        control_unit->reset = 0;
+        control_unit->clk = 0;
+        control_unit->eval();
+        control_unit->clk = 1;
+        control_unit->eval();
+
+        if (control_unit->en_i || control_unit->en_s || control_unit->en_c || control_unit->done || 
+            control_unit->en_0 || control_unit->en_1 || control_unit->en_2 || control_unit->en_3 || 
+            control_unit->en_4 || control_unit->en_5 || control_unit->en_6 || control_unit->en_7) {
+            std::cout << "Test " << test << " FAIL: Some outputs active after reset but before run" << std::endl;
+            test_passed = false;
+            failed_tests++;
+        }
+
+        control_unit->run = 1;
+        control_unit->eval();
+
+        // Cicle 1
 
         if (control_unit->en_s != 0 ||
             control_unit->en_c != 0 ||
@@ -45,8 +69,7 @@ int main(int argc, char** argv)
             control_unit->mode != 0 ||
             control_unit->sel != 0 ||
             control_unit->mux_sel != 0 ||
-            control_unit->done != 0
-        )
+            control_unit->done != 0)
         {
             std::cout << "CicleN1: intsruction = " << std::bitset<16>(control_unit->instruction) << std::endl
                       << "\ten_s = " << std::bitset<1>(control_unit->en_s) << ", should be 0" << std::endl
@@ -87,8 +110,7 @@ int main(int argc, char** argv)
             control_unit->mode != 0 ||
             control_unit->sel != 0 ||
             (control_unit->mux_sel & 0b111) != (((control_unit->instruction) >> 13) & 0b111) ||
-            control_unit->done != 0
-        )
+            control_unit->done != 0)
         {
             std::cout << "CicleN2: intsruction = " << std::bitset<16>(control_unit->instruction) << std::endl
                       << "\ten_s = " << std::bitset<1>(control_unit->en_s) << ", should be 1" << std::endl
@@ -107,11 +129,6 @@ int main(int argc, char** argv)
                       << "\tmux_sel = " << std::bitset<3>(control_unit->mux_sel) << ", should be " << std::bitset<3>(((control_unit->instruction) >> 13) & 0b111) << std::endl 
                       << "\tdone = " << std::bitset<1>(control_unit->done) << ", should be 0" << std::endl << std::endl;
         }
-
-        control_unit->clk = 0;
-        control_unit->eval();
-        control_unit->clk = 1;
-        control_unit->eval();
 
         // Cicle 3
         control_unit->clk = 0;
@@ -133,8 +150,7 @@ int main(int argc, char** argv)
             (control_unit->mode & 0b1) != ((((control_unit->instruction) << 13) >> 15) & 0b1) ||
             (control_unit->sel & 0xF) != ((((control_unit->instruction) << 9) >> 12) & 0xF) ||
             (control_unit->mux_sel & 0b111) != ((((control_unit->instruction) << 3) >> 13) & 0b111) ||
-            control_unit->done != 0
-        )
+            control_unit->done != 0)
         {
             std::cout << "CicleN3: intsruction = " << std::bitset<16>(control_unit->instruction) << std::endl
                       << "\ten_s = " << std::bitset<1>(control_unit->en_s) << ", should be 0" << std::endl
@@ -155,11 +171,6 @@ int main(int argc, char** argv)
         }
 
         // Cicle 4
-        control_unit->clk = 0;
-        control_unit->eval();
-        control_unit->clk = 1;
-        control_unit->eval();
-
         control_unit->clk = 0;
         control_unit->eval();
         control_unit->clk = 1;
