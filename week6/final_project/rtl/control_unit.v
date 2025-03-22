@@ -78,15 +78,15 @@ module moduleName (
                 end
                 B: 
                 begin
-                    reg_en_s = 1'b1;
+                    reg_en_s    = 1'b1;
                     reg_mux_sel = {1'b0, reg_Rx};
                 end
                 C: 
                 begin
-                    reg_en_c = 1'b1;
-                    reg_sel = reg_ALU_sel;
+                    reg_en_c    = 1'b1;
+                    reg_sel     = reg_ALU_sel;
                     reg_mux_sel = {1'b0, reg_Ry};
-                    reg_mode = reg_M;
+                    reg_mode    = reg_M;
                 end
                 D: 
                 begin
