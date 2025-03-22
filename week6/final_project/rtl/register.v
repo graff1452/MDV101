@@ -1,9 +1,9 @@
 module register (
-    input wire [15:0] d_in,
-    input wire reset,
-    input wire clk,
-    input wire en,
-    output wire [15:0] d_out
+    input   wire [15:0]     d_in,
+    input   wire            reset,
+    input   wire            clk,
+    input   wire            en,
+    output  wire [15:0]     d_out
 );
     reg [15:0] reg_d_out;
     always @(posedge clk) begin
@@ -13,7 +13,8 @@ module register (
         end
         else 
         begin
-            if (en) begin
+            if (en) 
+            begin
                 reg_d_out <= d_in;
             end
         end

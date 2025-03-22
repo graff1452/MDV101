@@ -1,23 +1,23 @@
 module moduleName (
-    input wire        run,
-    input wire        clk,
-    input wire        reset,
-    input wire [15:0] instruction,
-    output wire       en_s,
-    output wire       en_c,
-    output wire       en_i,
-    output wire       en_0,
-    output wire       en_1,
-    output wire       en_2,
-    output wire       en_3,
-    output wire       en_4,
-    output wire       en_5,
-    output wire       en_6,
-    output wire       en_7,
-    output wire       mode,
-    output wire [3:0] sel,
-    output wire [3:0] mux_sel,
-    output wire       done
+    input   wire        run,
+    input   wire        clk,
+    input   wire        reset,
+    input   wire [15:0] instruction,
+    output  wire        en_s,
+    output  wire        en_c,
+    output  wire        en_i,
+    output  wire        en_0,
+    output  wire        en_1,
+    output  wire        en_2,
+    output  wire        en_3,
+    output  wire        en_4,
+    output  wire        en_5,
+    output  wire        en_6,
+    output  wire        en_7,
+    output  wire        mode,
+    output  wire [3:0]  sel,
+    output  wire [3:0]  mux_sel,
+    output  wire        done
 );
     parameter A = 2'b00; 
     parameter B = 2'b01;
@@ -37,9 +37,8 @@ module moduleName (
     reg         reg_en_7; 
     reg         reg_mode;
     reg         reg_done;
+    reg         reg_M;
     reg [1:0]   reg_state;
-    reg         reg_M; 
-    // reg [1:0]   reg_next_state;
     reg [1:0]   reg_Res2;
     reg [2:0]   reg_Rx;
     reg [2:0]   reg_Ry;

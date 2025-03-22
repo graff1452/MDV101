@@ -1,16 +1,16 @@
 module mux (
-    input wire [15:0] in_0,
-    input wire [15:0] in_1,
-    input wire [15:0] in_2,
-    input wire [15:0] in_3,
-    input wire [15:0] in_4,
-    input wire [15:0] in_5,
-    input wire [15:0] in_6,
-    input wire [15:0] in_7,
-    input wire [15:0] in_8,
-    input wire [15:0] in_9,
-    input wire [3:0] mux_sel,
-    output wire [15:0] mux_out 
+    input   wire [15:0]     in_0,
+    input   wire [15:0]     in_1,
+    input   wire [15:0]     in_2,
+    input   wire [15:0]     in_3,
+    input   wire [15:0]     in_4,
+    input   wire [15:0]     in_5,
+    input   wire [15:0]     in_6,
+    input   wire [15:0]     in_7,
+    input   wire [15:0]     in_8,
+    input   wire [15:0]     in_9,
+    input   wire [3:0]      mux_sel,
+    output  wire [15:0]     mux_out 
 );
     reg [15:0] reg_mux_out;
     always @(*) begin

@@ -1,27 +1,29 @@
 module ALU (
-    input wire CIn,
-    input wire [15:0] A,
-    input wire [15:0] B,
-    input wire [3:0] Sel,
-    input wire Mode,
-    output wire [15:0] ALUOut,
-    output wire COut,
-    output wire Cmp
+    input   wire        CIn,
+    input   wire [15:0] A,
+    input   wire [15:0] B,
+    input   wire [3:0]  Sel,
+    input   wire        Mode,
+    output  wire [15:0] ALUOut,
+    output  wire        COut,
+    output  wire        Cmp
 );
-    wire Arithmetic_Cmp, Arithmetic_COut;
-    wire [15:0] Logic_LoOut, Arithmetic_ArOut;
+    wire Arithmetic_Cmp;
+    wire Arithmetic_COut;
+    wire [15:0] Logic_LoOut;
+    wire [15:0] Arithmetic_ArOut;
     Logic myLogic (.A(A), .B(B), .Sel(Sel), .LoOut(Logic_LoOut));
     Arithmetic myArithmetic (.CIn(CIn), .A(A), .B(B), .Sel(Sel), .ArOut(Arithmetic_ArOut), .Cmp(Arithmetic_Cmp), .COut(Arithmetic_COut));
-    assign ALUOut = Mode ? Logic_LoOut : Arithmetic_ArOut;
-    assign COut = Mode ? 1'b0 : Arithmetic_COut;
-    assign Cmp = Mode ? 1'b0 : Arithmetic_Cmp;
+    assign ALUOut   = Mode ? Logic_LoOut : Arithmetic_ArOut;
+    assign COut     = Mode ? 1'b0 : Arithmetic_COut;
+    assign Cmp      = Mode ? 1'b0 : Arithmetic_Cmp;
 endmodule
 
 module Logic (
-    input wire [15:0] A,
-    input wire [15:0] B,
-    input wire [3:0] Sel,
-    output wire [15:0] LoOut
+    input   wire [15:0] A,
+    input   wire [15:0] B,
+    input   wire [3:0]  Sel,
+    output  wire [15:0] LoOut
 );
     reg [15:0] reg_LoOut;
     always @(*) begin
@@ -48,13 +50,13 @@ module Logic (
 endmodule
 
 module Arithmetic (
-    input wire CIn,
-    input wire [15:0] A,
-    input wire [15:0] B,
-    input wire [3:0] Sel,
-    output wire [15:0] ArOut,
-    output wire Cmp,
-    output wire COut
+    input   wire CIn,
+    input   wire [15:0] A,
+    input   wire [15:0] B,
+    input   wire [3:0]  Sel,
+    output  wire [15:0] ArOut,
+    output  wire        Cmp,
+    output  wire        COut
 );
     reg [16:0] reg_ArOut;
     wire [16:0] a = {1'b0, A};
@@ -79,7 +81,7 @@ module Arithmetic (
             4'b1111: reg_ArOut = a - 1;
         endcase
     end
-    assign ArOut = reg_ArOut[15:0];
-    assign Cmp = A == B;
-    assign COut = reg_ArOut[16];
+    assign ArOut    = reg_ArOut[15:0];
+    assign Cmp      = A == B;
+    assign COut     = reg_ArOut[16];
 endmodule
