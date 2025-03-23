@@ -1,4 +1,4 @@
-module ALU (
+module alu (
     input   wire        CIn,
     input   wire [15:0] A,
     input   wire [15:0] B,

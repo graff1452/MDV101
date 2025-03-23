@@ -1,4 +1,4 @@
-module moduleName (
+module control_unit (
     input   wire        run,
     input   wire        clk,
     input   wire        reset,
