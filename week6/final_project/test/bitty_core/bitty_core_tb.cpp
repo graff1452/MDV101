@@ -17,7 +17,10 @@ int main(int argc, char** argv)
     // Initialize signals
     std::cout << "Starting bitty_core Test with " << NUM_TESTS << " iterations.\n";
 
-    
+    for (int test = 0; test < NUM_TESTS; test++)
+    {
+        
+    }
 
     delete bitty_core;
     return 0;
