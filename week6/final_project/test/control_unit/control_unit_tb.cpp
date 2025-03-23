@@ -15,7 +15,6 @@ int main(int argc, char** argv)
     std::srand(std::time(nullptr));  // Seed for random values
 
     // Initialize signals
-    control_unit->run = 1;
     std::cout << "Starting Control Unit Test with " << NUM_TESTS << " iterations.\n";
 
     bool test_passed = true;
@@ -50,7 +49,11 @@ int main(int argc, char** argv)
             failed_tests++;
         }
 
+        control_unit->clk = 0;
+        control_unit->eval();
         control_unit->run = 1;
+        control_unit->eval();
+        control_unit->clk = 1;
         control_unit->eval();
 
         // Cicle 1

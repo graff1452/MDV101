@@ -24,6 +24,7 @@ module moduleName (
     parameter C = 2'b10;
     parameter D = 2'b11;
 
+    reg         reg_run_prev;
     reg         reg_en_s; 
     reg         reg_en_c; 
     reg         reg_en_i; 
@@ -39,6 +40,7 @@ module moduleName (
     reg         reg_done;
     reg         reg_M;
     reg [1:0]   reg_state;
+    reg [1:0]   reg_next_state;
     reg [1:0]   reg_Res2;
     reg [2:0]   reg_Rx;
     reg [2:0]   reg_Ry;
@@ -124,19 +126,32 @@ module moduleName (
         end
     end
 
-    always @(posedge clk) begin
+    always @(posedge clk)
+    begin
+        reg_run_prev <= run;
+    end
+
+    always @(posedge clk) 
+    begin
         if (reset)
         begin
             reg_state <= A;
         end
         else if (run)
         begin
+            reg_state <= reg_next_state;
+        end
+    end
+
+    always @(*)
+    begin
+        begin
             case (reg_state)
-                A:          reg_state <= B;
-                B:          reg_state <= C;
-                C:          reg_state <= D;
-                D:          reg_state <= A;
-                default:    reg_state <= A;
+                A:          reg_next_state = (run == 1 && reg_run_prev == 0) ? A : B;
+                B:          reg_next_state = C;
+                C:          reg_next_state = D;
+                D:          reg_next_state = A;
+                default:    reg_next_state = A;
             endcase
         end
     end
