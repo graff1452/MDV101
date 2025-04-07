@@ -38,14 +38,8 @@ module control_unit (
     reg         reg_en_7; 
     reg         reg_mode;
     reg         reg_done;
-    reg         reg_M;
     reg [1:0]   reg_state;
     reg [1:0]   reg_next_state;
-    reg [1:0]   reg_Res2;
-    reg [2:0]   reg_Rx;
-    reg [2:0]   reg_Ry;
-    reg [2:0]   reg_Res1;
-    reg [3:0]   reg_ALU_sel; 
     reg [3:0]   reg_sel;
     reg [3:0]   reg_mux_sel;
 
@@ -64,13 +58,7 @@ module control_unit (
         reg_mode    = 1'b0;
         reg_done    = 1'b0;
         reg_sel     = 4'b0000;
-        reg_mux_sel = 4'b0000;
-        reg_Rx      = instruction[15:13];
-        reg_Ry      = instruction[12:10];
-        reg_Res1    = instruction[9:7];
-        reg_ALU_sel = instruction[6:3];
-        reg_M       = instruction[2];
-        reg_Res2    = instruction[1:0];
+        reg_mux_sel = 4'b1111;
         if (!reset && run) 
         begin
             case (reg_state)
@@ -81,18 +69,18 @@ module control_unit (
                 B: 
                 begin
                     reg_en_s    = 1'b1;
-                    reg_mux_sel = {1'b0, reg_Rx};
+                    reg_mux_sel = {1'b0, instruction[15:13]};
                 end
                 C: 
                 begin
                     reg_en_c    = 1'b1;
-                    reg_sel     = reg_ALU_sel;
-                    reg_mux_sel = {1'b0, reg_Ry};
-                    reg_mode    = reg_M;
+                    reg_sel     = instruction[6:3];
+                    reg_mux_sel = {1'b0, instruction[12:10]};
+                    reg_mode    = instruction[2];
                 end
                 D: 
                 begin
-                    case (reg_Rx) 
+                    case (instruction[15:13]) 
                         3'b000: reg_en_0 = 1'b1;
                         3'b001: reg_en_1 = 1'b1;
                         3'b010: reg_en_2 = 1'b1;
@@ -120,7 +108,7 @@ module control_unit (
                     reg_mode    = 1'b0;
                     reg_done    = 1'b0;
                     reg_sel     = 4'b0000;
-                    reg_mux_sel = 4'b0000;
+                    reg_mux_sel = 4'b1111;
                 end
             endcase
         end

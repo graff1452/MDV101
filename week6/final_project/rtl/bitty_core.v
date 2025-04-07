@@ -4,6 +4,17 @@ module bitty_core (
     input   wire        run,
     input   wire [15:0] instruction,
     output  wire        done
+    output  wire [15:0] Reg_Inst_Out;
+    output  wire [15:0] Reg_S_Out;
+    output  wire [15:0] Reg_C_Out;
+    output  wire [15:0] Reg_0_Out;
+    output  wire [15:0] Reg_1_Out;
+    output  wire [15:0] Reg_2_Out;
+    output  wire [15:0] Reg_3_Out;
+    output  wire [15:0] Reg_4_Out;
+    output  wire [15:0] Reg_5_Out;
+    output  wire [15:0] Reg_6_Out;
+    output  wire [15:0] Reg_7_Out;
 );
     // Control Unit Wires
     wire [3:0] sel;
@@ -20,19 +31,6 @@ module bitty_core (
     wire en_6;
     wire en_7;
     wire en_i;
-    
-    // Register Wires
-    wire [15:0] Reg_Inst_Out;
-    wire [15:0] Reg_S_Out;
-    wire [15:0] Reg_C_Out;
-    wire [15:0] Reg_0_Out;
-    wire [15:0] Reg_1_Out;
-    wire [15:0] Reg_2_Out;
-    wire [15:0] Reg_3_Out;
-    wire [15:0] Reg_4_Out;
-    wire [15:0] Reg_5_Out;
-    wire [15:0] Reg_6_Out;
-    wire [15:0] Reg_7_Out;
 
     // Multiplexor Wires
     wire [15:0] mux_out;

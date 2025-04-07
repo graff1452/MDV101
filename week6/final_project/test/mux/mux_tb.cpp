@@ -61,20 +61,20 @@ int main(int argc, char** argv)
 
             // Check output
             if (mux->mux_out != expected_result) {
-                std::cout << "Mismatch at Sel=" << sel
-                          << " in_0=" << in_0 
-                          << " in_1=" << in_1 
-                          << " in_2=" << in_2 
-                          << " in_3=" << in_3 
-                          << " in_4=" << in_4 
-                          << " in_5=" << in_5 
-                          << " in_6=" << in_6 
-                          << " in_7=" << in_7
-                          << " in_8=" << in_8
-                          << " in_9=" << in_9
-                          << " Expected=" << expected_result
-                          << " Got=" << mux->mux_out
-                          << std::endl;
+                std::cout   << "Mismatch at Sel=" << sel
+                            << " in_0=" << in_0 
+                            << " in_1=" << in_1 
+                            << " in_2=" << in_2 
+                            << " in_3=" << in_3 
+                            << " in_4=" << in_4 
+                            << " in_5=" << in_5 
+                            << " in_6=" << in_6 
+                            << " in_7=" << in_7
+                            << " in_8=" << in_8
+                            << " in_9=" << in_9
+                            << " Expected=" << expected_result
+                            << " Got=" << mux->mux_out
+                            << std::endl;
             }
         }
     }

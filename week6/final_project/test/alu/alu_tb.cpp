@@ -85,16 +85,16 @@ int main(int argc, char **argv) {
             // Check output
             if (alu->ALUOut != expected_result || alu->COut != expected_cout || alu->Cmp != expected_cmp) 
             {
-                std::cout << "Mismatch at Sel=" << sel
-                          << " A=" << A << " B=" << B
-                          << " Mode=" << Mode << " CIn=" << CIn
-                          << " Expected=" << expected_result
-                          << " Got=" << alu->ALUOut
-                          << " Expected COut=" << expected_cout
-                          << " Got COut=" << (int)alu->COut
-                          << " Expected Cmp=" << expected_cmp
-                          << " Got Cmp=" << (int)alu->Cmp
-                          << std::endl;
+                std::cout   << "Mismatch at Sel=" << sel
+                            << " A=" << A << " B=" << B
+                            << " Mode=" << Mode << " CIn=" << CIn
+                            << " Expected=" << expected_result
+                            << " Got=" << alu->ALUOut
+                            << " Expected COut=" << expected_cout
+                            << " Got COut=" << (int)alu->COut
+                            << " Expected Cmp=" << expected_cmp
+                            << " Got Cmp=" << (int)alu->Cmp
+                            << std::endl;
             }
         }
     }
