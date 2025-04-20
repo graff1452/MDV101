@@ -30,9 +30,9 @@ int main(int argc, char** argv)
         bitty_core->eval();
         
         bitty_core->reset = 0;
+        bitty_core->run = 1;
         bitty_core->clk = 0;
         bitty_core->eval();
-        bitty_core->run = 1;
         bitty_core->clk = 1;
         bitty_core->eval();
 
