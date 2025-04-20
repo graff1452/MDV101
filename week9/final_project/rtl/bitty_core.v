@@ -19,6 +19,7 @@ module bitty_core (
     // Control Unit Wires
     wire [2:0] sel;
     wire [3:0] mux_sel;
+    wire [15:0] imm_val;
     wire en_s;
     wire en_c;
     wire en_0;
@@ -55,7 +56,8 @@ module bitty_core (
                                .en_7(en_7),
                                .sel(sel),
                                .mux_sel(mux_sel),
-                               .done(done));
+                               .done(done),
+                               .imm_val(imm_val));
 
     // Register Instances
     register Reg_Inst (.d_in(instruction),
@@ -132,7 +134,8 @@ module bitty_core (
                .in_5(Reg_5_Out),
                .in_6(Reg_6_Out),
                .in_7(Reg_7_Out),
-               .in_8({8'b00000000, instruction[12:5]}),
+               .in_8(imm_val),
+               .in_9(16'b0),
                .mux_sel(mux_sel),
                .mux_out(mux_out));
     

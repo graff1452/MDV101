@@ -16,14 +16,27 @@ module control_unit (
     output  wire        en_7,
     output  wire [2:0]  sel,
     output  wire [3:0]  mux_sel,
-    output  wire        done
+    output  wire        done,
+    output  wire [15:0] imm_val
 );
-    parameter A = 2'b00; 
-    parameter B = 2'b01;
-    parameter C = 2'b10;
-    parameter D = 2'b11;
+    parameter INITIAL_STATE     = 2'b00; 
+    parameter LOAD_STATE        = 2'b01;
+    parameter EXECUTION_STATE   = 2'b10;
+    parameter STORE_STATE       = 2'b11;
 
+    parameter R_TYPE_INSTRUCTION = 2'b00;
+    parameter I_TYPE_INSTRUCTION = 2'b01;
+
+    reg [1:0]   reg_state;
+    reg [1:0]   reg_next_state;
     reg         reg_run_prev;
+
+    wire [1:0] instruction_format   = instruction[1:0];
+    wire [2:0] alu_selection        = instruction[4:2];
+    wire [2:0] first_operand        = instruction[15:13];
+    wire [2:0] second_operand       = instruction[12:10];
+    wire [7:0] immediate_value      = instruction[12:5];
+
     reg         reg_en_s; 
     reg         reg_en_c; 
     reg         reg_en_i; 
@@ -36,10 +49,53 @@ module control_unit (
     reg         reg_en_6; 
     reg         reg_en_7; 
     reg         reg_done;
-    reg [1:0]   reg_state;
-    reg [1:0]   reg_next_state;
     reg [2:0]   reg_sel;
     reg [3:0]   reg_mux_sel;
+    reg [15:0]  reg_imm_val;
+
+    assign en_s         = reg_en_s; 
+    assign en_c         = reg_en_c; 
+    assign en_i         = reg_en_i; 
+    assign en_0         = reg_en_0;
+    assign en_1         = reg_en_1; 
+    assign en_2         = reg_en_2; 
+    assign en_3         = reg_en_3; 
+    assign en_4         = reg_en_4; 
+    assign en_5         = reg_en_5; 
+    assign en_6         = reg_en_6; 
+    assign en_7         = reg_en_7; 
+    assign sel          = reg_sel;
+    assign mux_sel      = reg_mux_sel;
+    assign done         = reg_done;
+    assign imm_val      = reg_imm_val;
+
+    always @(posedge clk)
+    begin
+        reg_run_prev <= run;
+    end
+
+    always @(posedge clk) 
+    begin
+        if (reset)
+        begin
+            reg_state <= INITIAL_STATE;
+        end
+        else if (run)
+        begin
+            reg_state <= reg_next_state;
+        end
+    end
+
+    always @(*)
+    begin
+        case (reg_state)
+            INITIAL_STATE:      reg_next_state = (run == 1 && reg_run_prev == 0) ? INITIAL_STATE : LOAD_STATE;
+            LOAD_STATE:         reg_next_state = EXECUTION_STATE;
+            EXECUTION_STATE:    reg_next_state = STORE_STATE;
+            STORE_STATE:        reg_next_state = INITIAL_STATE;
+            default:            reg_next_state = INITIAL_STATE;
+        endcase
+    end
 
     always @(*) begin
         reg_en_s    = 1'b0;
@@ -53,37 +109,48 @@ module control_unit (
         reg_en_5    = 1'b0;
         reg_en_6    = 1'b0;
         reg_en_7    = 1'b0;
-        reg_done    = 1'b0;
         reg_sel     = 3'b000;
         reg_mux_sel = 4'b1111;
+        reg_done    = 1'b0;
+        reg_imm_val = 16'b0;
+        
         if (!reset && run) 
         begin
             case (reg_state)
-                A: 
+                INITIAL_STATE: 
                 begin
                     reg_en_i = 1'b1;
                 end
-                B: 
+                LOAD_STATE: 
                 begin
                     reg_en_s    = 1'b1;
-                    reg_mux_sel = {1'b0, instruction[15:13]};
+                    reg_mux_sel = {1'b0, first_operand};
                 end
-                C: 
-                begin
-                    reg_en_c    = 1'b1;
-                    reg_sel     = instruction[4:2];
-                    if (instruction[1:0] == 2'b01) 
+                EXECUTION_STATE: 
+                case (instruction_format)
+                    R_TYPE_INSTRUCTION: 
+                    begin
+                        reg_mux_sel = {1'b0, second_operand};
+                        reg_en_c = 1'b1;
+                        reg_sel = alu_selection;
+                    end
+                    I_TYPE_INSTRUCTION:
                     begin
                         reg_mux_sel = 4'b1000;
+                        reg_imm_val = {8'b00000000, immediate_value};
+                        reg_en_c = 1'b0;
+                        reg_sel = alu_selection;
                     end
-                    else 
+                    default:
                     begin
-                        reg_mux_sel = {1'b0, instruction[12:10]};
+                        reg_mux_sel = {1'b0, second_operand};
+                        reg_en_c = 1'b1;
+                        reg_sel = alu_selection;
                     end
-                end
-                D: 
+                endcase
+                STORE_STATE: 
                 begin
-                    case (instruction[15:13]) 
+                    case (first_operand) 
                         3'b000: reg_en_0 = 1'b1;
                         3'b001: reg_en_1 = 1'b1;
                         3'b010: reg_en_2 = 1'b1;
@@ -111,53 +178,9 @@ module control_unit (
                     reg_done    = 1'b0;
                     reg_sel     = 3'b000;
                     reg_mux_sel = 4'b1111;
+                    reg_imm_val = 16'b0;
                 end
             endcase
         end
     end
-
-    always @(posedge clk)
-    begin
-        reg_run_prev <= run;
-    end
-
-    always @(posedge clk) 
-    begin
-        if (reset)
-        begin
-            reg_state <= A;
-        end
-        else if (run)
-        begin
-            reg_state <= reg_next_state;
-        end
-    end
-
-    always @(*)
-    begin
-        begin
-            case (reg_state)
-                A:          reg_next_state = (run == 1 && reg_run_prev == 0) ? A : B;
-                B:          reg_next_state = C;
-                C:          reg_next_state = D;
-                D:          reg_next_state = A;
-                default:    reg_next_state = A;
-            endcase
-        end
-    end
-
-    assign en_s     = reg_en_s;
-    assign en_c     = reg_en_c;
-    assign en_i     = reg_en_i;
-    assign en_0     = reg_en_0;
-    assign en_1     = reg_en_1;
-    assign en_2     = reg_en_2;
-    assign en_3     = reg_en_3;
-    assign en_4     = reg_en_4;
-    assign en_5     = reg_en_5;
-    assign en_6     = reg_en_6;
-    assign en_7     = reg_en_7;
-    assign sel      = reg_sel;
-    assign mux_sel  = reg_mux_sel;
-    assign done     = reg_done;
 endmodule
