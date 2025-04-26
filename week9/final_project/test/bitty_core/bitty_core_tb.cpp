@@ -5,6 +5,7 @@
 #include <ctime>
 #include <bitset>
 
+
 #define NUM_TESTS 10
 
 int main(int argc, char** argv)
