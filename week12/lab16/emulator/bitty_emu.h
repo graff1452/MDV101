@@ -1,0 +1,25 @@
+#include <cstdint>
+#include <vector>
+#include <ctime>
+#include <cstdlib>
+
+class BittyEmulator
+{
+public:
+	BittyEmulator(){};
+	uint16_t 	Evaluate(uint16_t instruction);
+	uint16_t 	GetRegisterValue(uint16_t reg_num);
+	uint16_t    GetPCValue();
+	uint16_t    GetMemoryValue(uint16_t address);
+	void 		SetRegisterValue(uint16_t reg_num, uint16_t value);
+	void        SetPCValue(uint16_t pc);
+	void        SetMemoryValue(uint16_t address, uint16_t value);
+	void        ResetRegisters();
+	void        ResetMemory(); // Reset all memory to 0
+	void 		ResetPC(); // Reset Program Counter to 0
+	uint16_t    Step();
+private:
+	std::vector<uint16_t> registers_ = std::vector<uint16_t>(8, 0); // 8 registers
+	std::vector<uint16_t> memory_ = std::vector<uint16_t>(256, 0); // 256 memory locations
+	uint16_t 	pc_ = 0; // Program Counter
+};
