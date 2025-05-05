@@ -4,13 +4,15 @@ module top (
     input wire run,
     output wire done
 );
-    wire [7:0] instruction_fetch_out;
+    wire [15:0] instruction_fetch_out;
+    wire bitty_core_done;
+    assign done = bitty_core_done;
 
-    instuction_fetch_unit my_instuction_fetch_unit (
+    instruction_fetch_unit my_instuction_fetch_unit (
         .clk(clk),
-        .en_pc(done),
+        .en_pc(bitty_core_done),
         .reset(reset),
-        .d_out(instruction_fetch_out)
+        .instruction_out(instruction_fetch_out)
     );
 
     bitty_core my_bitty_core (
@@ -18,6 +20,6 @@ module top (
         .reset(reset),
         .run(run),
         .instruction(instruction_fetch_out),
-        .done(done)
+        .done(bitty_core_done)
     );
 endmodule

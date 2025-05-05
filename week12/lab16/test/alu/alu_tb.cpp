@@ -3,6 +3,7 @@
 #include <iostream>
 #include <cstdlib>
 #include <ctime>
+#include <cstdint>
 
 #define NUM_TESTS 1000000
 

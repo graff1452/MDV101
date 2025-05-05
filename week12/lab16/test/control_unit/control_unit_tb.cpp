@@ -4,6 +4,7 @@
 #include <cstdlib>
 #include <ctime>
 #include <bitset>
+#include <cstdint>
 
 #define NUM_TESTS 1000000
 

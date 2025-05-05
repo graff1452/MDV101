@@ -22,7 +22,7 @@ module instruction_fetch_unit (
 
     memory memory_unit (
         .clk(clk),
-        .address(d_out),
+        .address(pc_d_out),
         .out(memory_out)
     );
 

@@ -8,7 +8,7 @@
 #include "/home/zhan/Desktop/MDV101/week11/lab15/emulator/bitty_emu.h"
 #include "/home/zhan/Desktop/MDV101/week11/lab15/generator/bitty_generator.h"
 
-#define NUM_TESTS 100
+#define NUM_TESTS 256
 
 int main(int argc, char** argv)
 {

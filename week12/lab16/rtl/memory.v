@@ -13,6 +13,6 @@ module memory (
     end
 
     always @(posedge clk) begin
-        out <= memory[address];
+        out_reg <= memory_cell[address];
     end
 endmodule

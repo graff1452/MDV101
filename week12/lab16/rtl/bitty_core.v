@@ -23,17 +23,17 @@ module bitty_core (
 
     // Multiplexor Wires
     wire [15:0] mux_out;
-    wire [15:0] Reg_Inst_Out,
-    wire [15:0] Reg_S_Out,
-    wire [15:0] Reg_C_Out,
-    wire [15:0] Reg_0_Out,
-    wire [15:0] Reg_1_Out,
-    wire [15:0] Reg_2_Out,
-    wire [15:0] Reg_3_Out,
-    wire [15:0] Reg_4_Out,
-    wire [15:0] Reg_5_Out,
-    wire [15:0] Reg_6_Out,
-    wire [15:0] Reg_7_Out
+    wire [15:0] Reg_Inst_Out;
+    wire [15:0] Reg_S_Out;
+    wire [15:0] Reg_C_Out;
+    wire [15:0] Reg_0_Out;
+    wire [15:0] Reg_1_Out;
+    wire [15:0] Reg_2_Out;
+    wire [15:0] Reg_3_Out;
+    wire [15:0] Reg_4_Out;
+    wire [15:0] Reg_5_Out;
+    wire [15:0] Reg_6_Out;
+    wire [15:0] Reg_7_Out;
 
     //ALU Wires
     wire [15:0] alu_out;

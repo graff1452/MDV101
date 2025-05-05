@@ -68,7 +68,7 @@ module control_unit (
     assign done         = reg_done;
     assign imm_val      = reg_imm_val;
 
-    always @(posedge clk) 
+    always @(posedge clk or posedge reset) 
     begin
         if (reset)
         begin

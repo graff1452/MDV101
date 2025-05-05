@@ -6,7 +6,7 @@ module register (
     output  wire [15:0]     d_out
 );
     reg [15:0] reg_d_out;
-    always @(posedge clk) begin
+    always @(posedge clk or posedge reset) begin
         if (reset) 
         begin
             reg_d_out <= 16'h0000;
