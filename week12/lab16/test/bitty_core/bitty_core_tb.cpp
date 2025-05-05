@@ -197,18 +197,6 @@ int main(int argc, char** argv)
             std::cout << "Something went off testing cycle 4" << std::endl;
             break;
         }
-
-        for (int j = 0; j < 8; j++)
-        {
-            if (bitty_core->Reg_C_Out != emulator.GetRegisterValue(j)) 
-            {
-                std::cout << "#####################\n"
-                          << "#REGISTER_" << j << " MISMATCH#" << std::endl 
-                          << "#####################\n" << std::endl
-                          << "Emulator Reg_" << j << "\t= " << std::bitset<16>(emulator.GetRegisterValue(j)) << std::endl
-                          << "BittyCore Reg_" << j << "\t= " << std::bitset<16>(bitty_core->Reg_C_Out) << std::endl;
-            }
-        }
     }
 
     delete bitty_core;

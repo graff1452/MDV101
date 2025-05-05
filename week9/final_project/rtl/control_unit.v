@@ -89,7 +89,7 @@ module control_unit (
     always @(*)
     begin
         case (reg_state)
-            INITIAL_STATE:      reg_next_state = (run == 1 && reg_run_prev == 0) ? INITIAL_STATE : LOAD_STATE;
+            INITIAL_STATE:      reg_next_state = (run == 1 && reg_run_prev == 0) ? LOAD_STATE : INITIAL_STATE;
             LOAD_STATE:         reg_next_state = EXECUTION_STATE;
             EXECUTION_STATE:    reg_next_state = STORE_STATE;
             STORE_STATE:        reg_next_state = INITIAL_STATE;
@@ -138,7 +138,7 @@ module control_unit (
                     begin
                         reg_mux_sel = 4'b1000;
                         reg_imm_val = {8'b00000000, immediate_value};
-                        reg_en_c = 1'b0;
+                        reg_en_c = 1'b1;
                         reg_sel = alu_selection;
                     end
                     default:

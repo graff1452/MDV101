@@ -14,7 +14,7 @@ module instruction_fetch_unit (
 
     pc pc_unit (
         .d_in(pc_d_in),
-        .clk(d_out),
+        .clk(clk),
         .en_pc(en_pc),
         .reset(reset),
         .d_out(pc_d_out)

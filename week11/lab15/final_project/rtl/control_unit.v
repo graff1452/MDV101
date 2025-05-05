@@ -29,7 +29,6 @@ module control_unit (
 
     reg [1:0]   reg_state;
     reg [1:0]   reg_next_state;
-    reg         reg_run_prev;
 
     wire [1:0] instruction_format   = instruction[1:0];
     wire [2:0] alu_selection        = instruction[4:2];
@@ -69,11 +68,6 @@ module control_unit (
     assign done         = reg_done;
     assign imm_val      = reg_imm_val;
 
-    always @(posedge clk)
-    begin
-        reg_run_prev <= run;
-    end
-
     always @(posedge clk) 
     begin
         if (reset)
@@ -89,7 +83,7 @@ module control_unit (
     always @(*)
     begin
         case (reg_state)
-            INITIAL_STATE:      reg_next_state = (run == 1 && reg_run_prev == 0) ? INITIAL_STATE : LOAD_STATE;
+            INITIAL_STATE:      reg_next_state = LOAD_STATE;
             LOAD_STATE:         reg_next_state = EXECUTION_STATE;
             EXECUTION_STATE:    reg_next_state = STORE_STATE;
             STORE_STATE:        reg_next_state = INITIAL_STATE;
@@ -138,7 +132,7 @@ module control_unit (
                     begin
                         reg_mux_sel = 4'b1000;
                         reg_imm_val = {8'b00000000, immediate_value};
-                        reg_en_c = 1'b0;
+                        reg_en_c = 1'b1;
                         reg_sel = alu_selection;
                     end
                     default:

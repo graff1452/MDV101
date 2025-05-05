@@ -1,21 +1,28 @@
-# Makefile for week11
-
+# Compiler and flags
 CXX = g++
-CXXFLAGS = -Wall -Wextra -std=c++17
-TARGET = main
+CXXFLAGS = -std=c++17 -Wall -Wextra -O2
+
+# Source files
 SRCS = main.cpp bitty_emu.cpp
 OBJS = $(SRCS:.cpp=.o)
 
+# Output executable
+TARGET = emulator
+
+# Default target
 all: $(TARGET)
 
+# Link the object files to create the executable
 $(TARGET): $(OBJS)
-	$(CXX) $(CXXFLAGS) -o $(TARGET) $(OBJS)
+	$(CXX) $(CXXFLAGS) -o $@ $^
 
+# Compile source files into object files
 %.o: %.cpp
 	$(CXX) $(CXXFLAGS) -c $< -o $@
 
-run: all
-	./$(TARGET)
-
+# Clean up build files
 clean:
-	rm -f $(TARGET) $(OBJS)
+	rm -f $(OBJS) $(TARGET)
+
+# Phony targets
+.PHONY: all clean

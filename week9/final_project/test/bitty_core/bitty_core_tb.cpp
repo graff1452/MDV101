@@ -20,16 +20,17 @@ int main(int argc, char** argv)
 
     for (int test = 0; test < NUM_TESTS; test++)
     {
-        bitty_core->instruction = std::rand() & 0xFFFF;
+        bitty_core->instruction = rand() & 0xFFFF; // Generate a random 16-bit instruction
         uint16_t Rx = ((bitty_core->instruction) >> 13) & 0b111;
         uint16_t Ry = ((bitty_core->instruction << 3) >> 13) & 0b111;
         uint16_t ALU_sel = (((bitty_core->instruction) << 11) >> 13) & 0b111;
+        
         bitty_core->reset = 1;
         bitty_core->clk = 0;
         bitty_core->eval();
         bitty_core->clk = 1;
         bitty_core->eval();
-        
+
         bitty_core->reset = 0;
         bitty_core->run = 1;
         bitty_core->clk = 0;
