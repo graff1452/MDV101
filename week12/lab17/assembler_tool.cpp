@@ -95,11 +95,22 @@ void disassemble(const std::string& inputFileName, const std::string& outputFile
     };
 
     // Open the input file
-    std::ifstream inputFile(inputFileName, std::ios::binary);
+    std::ifstream inputFile(inputFileName);
     if (!inputFile.is_open()) {
         std::cerr << "Error: Could not open input file: " << inputFileName << std::endl;
         return;
     }
+
+    // Detect if the file is in hexadecimal format
+    bool isHex = false;
+    std::string firstLine;
+    if (std::getline(inputFile, firstLine)) {
+        isHex = firstLine.find_first_not_of("0123456789abcdefABCDEF") == std::string::npos;
+    }
+
+    // Reopen the file to reset the read position
+    inputFile.clear();
+    inputFile.seekg(0, std::ios::beg);
 
     // Open the output file if specified
     std::ofstream outputFile;
@@ -112,8 +123,18 @@ void disassemble(const std::string& inputFileName, const std::string& outputFile
     }
 
     // Read and decode the machine code
-    uint16_t encodedInstruction;
-    while (inputFile.read(reinterpret_cast<char*>(&encodedInstruction), sizeof(encodedInstruction))) {
+    std::string line;
+    while (std::getline(inputFile, line)) {
+        uint16_t encodedInstruction;
+
+        if (isHex) {
+            // Convert hex string to binary
+            encodedInstruction = static_cast<uint16_t>(std::stoul(line, nullptr, 16));
+        } else {
+            // Read binary data directly
+            encodedInstruction = *reinterpret_cast<const uint16_t*>(line.data());
+        }
+
         uint8_t rx = (encodedInstruction >> 13) & 0x07;
         uint8_t ry = (encodedInstruction >> 10) & 0x07;
         uint8_t alu_sel = (encodedInstruction >> 2) & 0x07;
