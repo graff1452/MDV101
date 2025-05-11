@@ -132,7 +132,7 @@ module control_unit (
                     begin
                         reg_mux_sel = 4'b1000;
                         reg_imm_val = {8'b00000000, immediate_value};
-                        reg_en_c = 1'b0;
+                        reg_en_c = 1'b1;
                         reg_sel = alu_selection;
                     end
                     default:

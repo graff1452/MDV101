@@ -22,7 +22,7 @@ int main(int argc, char** argv)
     std::vector<uint16_t> instructions;
 
     // Read instructions from file
-    std::ifstream file("/home/zhan/Desktop/MDV101/week12/lab16/generator/instructions.txt");
+    std::ifstream file("/home/zhan/Desktop/MDV101/week13/lab18/generator/instructions.txt");
     if (!file.is_open()) {
         std::cerr << "Error: Could not open instructions file." << std::endl;
         return 1;

@@ -3,7 +3,8 @@ module bitty_core (
     input   wire        reset,
     input   wire        run,
     input   wire [15:0] instruction,
-    output  wire        done
+    output  wire        done,
+    output  wire [15:0] last_alu_result
 );
     // Control Unit Wires
     wire [2:0] sel;
@@ -37,6 +38,8 @@ module bitty_core (
 
     //ALU Wires
     wire [15:0] alu_out;
+
+    assign last_alu_result = Reg_C_Out;
 
     // Control Unit Instance
     control_unit myControlUnit (.run(run),

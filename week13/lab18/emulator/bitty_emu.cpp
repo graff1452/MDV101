@@ -19,8 +19,8 @@ uint16_t BittyEmulator::Evaluate(uint16_t instruction)
             case 0b010: registers_[Rx] = registers_[Rx] &   immediate_value;        break; 
             case 0b011: registers_[Rx] = registers_[Rx] |   immediate_value;        break; 
             case 0b100: registers_[Rx] = registers_[Rx] ^   immediate_value;        break;
-            case 0b101: registers_[Rx] = registers_[Rx] <<  immediate_value % 16;   break; 
-            case 0b110: registers_[Rx] = registers_[Rx] >>  immediate_value % 16;   break;
+            case 0b101: registers_[Rx] = registers_[Rx] <<  (immediate_value % 16);   break; 
+            case 0b110: registers_[Rx] = registers_[Rx] >>  (immediate_value % 16);   break;
             case 0b111: 
                 if (registers_[Rx] == immediate_value) 
                 {
@@ -34,6 +34,7 @@ uint16_t BittyEmulator::Evaluate(uint16_t instruction)
                 }
                 break;
         }
+        register_c = registers_[Rx];
         pc_++;
     }
     else if (format == 0x02) // J-type
@@ -92,8 +93,8 @@ uint16_t BittyEmulator::Evaluate(uint16_t instruction)
             case 0b010: registers_[Rx] = registers_[Rx] &   registers_[Ry];             break; 
             case 0b011: registers_[Rx] = registers_[Rx] |   registers_[Ry];             break; 
             case 0b100: registers_[Rx] = registers_[Rx] ^   registers_[Ry];             break;
-            case 0b101: registers_[Rx] = registers_[Rx] <<  registers_[Ry] % 16;        break; 
-            case 0b110: registers_[Rx] = registers_[Rx] >>  registers_[Ry] % 16;        break; 
+            case 0b101: registers_[Rx] = registers_[Rx] <<  (registers_[Ry] % 16);        break; 
+            case 0b110: registers_[Rx] = registers_[Rx] >>  (registers_[Ry] % 16);        break; 
             case 0b111: 
                 if (registers_[Rx] == registers_[Ry]) 
                 {
@@ -107,13 +108,13 @@ uint16_t BittyEmulator::Evaluate(uint16_t instruction)
                 }
                 break;
         }
+        register_c = registers_[Rx];
         pc_++;
     }
     if (pc_ >= memory_.size()) // 
     {
         pc_ = pc_ % memory_.size(); // Wrap around if PC exceeds memory size
     }
-    register_c = registers_[Rx];
     return registers_[Rx];
 }
 

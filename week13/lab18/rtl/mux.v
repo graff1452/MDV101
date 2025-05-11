@@ -13,7 +13,8 @@ module mux (
     output  wire [15:0]     mux_out 
 );
     reg [15:0] reg_mux_out;
-    always @(*) begin
+    always @(*) 
+    begin
         case (mux_sel)
             4'b0000: reg_mux_out = in_0;
             4'b0001: reg_mux_out = in_1;

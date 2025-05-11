@@ -8,11 +8,13 @@ module memory (
 
     reg [15:0] memory_cell [0:255]; // 256 x 16-bit memory
 
-    initial begin
-        $readmemh("/home/zhan/Desktop/MDV101/week12/lab16/generator/instructions.txt", memory_cell);
+    initial 
+    begin
+        $readmemh("/home/zhan/Desktop/MDV101/week13/lab18/generator/instructions.txt", memory_cell);
     end
 
-    always @(posedge clk) begin
+    always @(posedge clk) 
+    begin
         out_reg <= memory_cell[address];
     end
 endmodule

@@ -19,17 +19,18 @@ module control_unit (
     output  wire        done,
     output  wire [15:0] imm_val
 );
-    parameter INITIAL_STATE     = 2'b00; 
-    parameter LOAD_STATE        = 2'b01;
-    parameter EXECUTION_STATE   = 2'b10;
-    parameter STORE_STATE       = 2'b11;
+    parameter INITIAL_STATE     = 3'b000; 
+    parameter LOAD_STATE        = 3'b001;
+    parameter EXECUTION_STATE   = 3'b010;
+    parameter STORE_STATE       = 3'b011;
+    parameter LOAD_DELAY_STATE  = 3'b100;
 
     parameter R_TYPE_INSTRUCTION = 2'b00;
     parameter I_TYPE_INSTRUCTION = 2'b01;
     parameter J_TYPE_INSTRUCTION = 2'b10;
 
-    reg [1:0]   reg_state;
-    reg [1:0]   reg_next_state;
+    reg [2:0]   reg_state;
+    reg [2:0]   reg_next_state;
 
     wire [1:0] instruction_format   = instruction[1:0];
     wire [2:0] alu_selection        = instruction[4:2];
@@ -87,7 +88,8 @@ module control_unit (
             INITIAL_STATE:      reg_next_state = LOAD_STATE;
             LOAD_STATE:         reg_next_state = EXECUTION_STATE;
             EXECUTION_STATE:    reg_next_state = STORE_STATE;
-            STORE_STATE:        reg_next_state = INITIAL_STATE;
+            STORE_STATE:        reg_next_state = LOAD_DELAY_STATE;
+            LOAD_DELAY_STATE:   reg_next_state = INITIAL_STATE;
             default:            reg_next_state = INITIAL_STATE;
         endcase
     end
@@ -133,7 +135,7 @@ module control_unit (
                     begin
                         reg_mux_sel = 4'b1000;
                         reg_imm_val = {8'b00000000, immediate_value};
-                        reg_en_c = 1'b0;
+                        reg_en_c = 1'b1;
                         reg_sel = alu_selection;
                     end
                     default:

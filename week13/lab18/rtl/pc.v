@@ -8,10 +8,14 @@ module pc (
 
     reg [7:0] reg_d_out;
     assign d_out = reg_d_out;
-    always @(posedge clk or posedge reset) begin
-        if (reset) begin
+    always @(posedge clk or posedge reset) 
+    begin
+        if (reset) 
+        begin
             reg_d_out <= 8'b0;
-        end else if (en_pc) begin
+        end 
+        else if (en_pc) 
+        begin
             reg_d_out <= d_in;
         end
     end

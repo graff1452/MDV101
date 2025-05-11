@@ -8,6 +8,7 @@
 #include <ctime>
 #include <bitset>
 #include <cstdint>
+#include <fstream>
 
 #define NUM_TESTS 256 // Number of tests
 
@@ -15,24 +16,13 @@ int main(int argc, char **argv, char **env) {
     Verilated::commandArgs(argc, argv);
     Vinstruction_fetch_unit *instruction_fetch_unit = new Vinstruction_fetch_unit;
 
-    instruction_fetch_unit->clk = 0; // Initialize clock
-    instruction_fetch_unit->reset = 1; // Assert reset
-    instruction_fetch_unit->eval(); // Evaluate the design
-    instruction_fetch_unit->reset = 0; // Deassert reset
-    instruction_fetch_unit->en_pc = 1; // Enable the PC
-    instruction_fetch_unit->eval(); // Evaluate the design again
 
-    if (instruction_fetch_unit->instruction_out != 0)
-    {
-        std::cerr << "Error: Instruction output should be 0 after reset." << std::endl;
-        return 1;
-    }
 
     // Vector to store instructions
     std::vector<uint16_t> instructions;
 
     // Read instructions from file
-    std::ifstream file("/home/zhan/Desktop/MDV101/week12/lab16/generator/instructions.txt");
+    std::ifstream file("/home/zhan/Desktop/MDV101/week13/lab18/generator/instructions.txt");
     if (!file.is_open()) {
         std::cerr << "Error: Could not open instructions file." << std::endl;
         return 1;
@@ -57,21 +47,94 @@ int main(int argc, char **argv, char **env) {
     //     std::cout << "Instruction[" << i << "] = " << std::hex << instructions[i] << std::endl;
     // }
 
+
+
+    std::ifstream inputFile("/home/zhan/Desktop/MDV101/week13/lab18/emulator/txt/register_c_values.txt");
+    if (!inputFile.is_open()) {
+        std::cerr << "Error: Could not open file for reading." << std::endl;
+        return 1;
+    }
+
+    std::vector<uint16_t> registerCValues;
+    uint16_t value;
+
+    // Read values from the file and store them in the vector
+    while (inputFile >> value) {
+        registerCValues.push_back(value);
+    }
+
+    inputFile.close();
+
+    // Output the values to verify Debug
+    // std::cout << "Values read from the file:" << std::endl;
+    // for (const auto& val : registerCValues) {
+    //     std::cout << val << std::endl;
+    // }
+
+
+
+    std::ifstream instructionFetchFile("/home/zhan/Desktop/MDV101/week13/lab18/emulator/txt/instruction_fetch_unit_out.txt");
+    if (!instructionFetchFile.is_open()) {
+        std::cerr << "Error: Could not open file instruction_fetch_unit_out.txt for reading." << std::endl;
+        return 1;
+    }
+    
+    std::vector<uint16_t> instruction_fetch_unit_out;
+    uint16_t instructionValue;
+    
+    // Read values from the file in hexadecimal format
+    while (instructionFetchFile >> std::hex >> instructionValue) {
+        instruction_fetch_unit_out.push_back(instructionValue);
+    }
+    
+    instructionFetchFile.close();
+    
+    // Debug: Output the values to verify
+    // std::cout << "Values read from instruction_fetch_unit_out.txt:" << std::endl;
+    // for (const auto& val : instruction_fetch_unit_out) {
+    //     std::cout << std::hex << val << std::endl;
+    // }
+
+
+
     instruction_fetch_unit->clk = 0; // Initialize clock
+    instruction_fetch_unit->reset = 1; // Assert reset
+    instruction_fetch_unit->eval(); // Evaluate the design
+    instruction_fetch_unit->reset = 0; // Deassert reset
+    instruction_fetch_unit->en_pc = 1; // Enable the PC
+    instruction_fetch_unit->eval(); // Evaluate the design again
+
+    if (instruction_fetch_unit->instruction_out != 0)
+    {
+        std::cerr << "Error: Instruction output should be 0 after reset." << std::endl;
+        return 1;
+    }
+
+    instruction_fetch_unit->clk = 0; // Initialize clock
+    instruction_fetch_unit->last_alu_result = 0;
     instruction_fetch_unit->eval(); // Evaluate the design
     instruction_fetch_unit->clk = 1; // Rising edge
     instruction_fetch_unit->eval(); // Evaluate the design
 
     for (int test = 0; test < NUM_TESTS; test++) 
     {
+        instruction_fetch_unit->last_alu_result = registerCValues[test]; // Set the last ALU result
         instruction_fetch_unit->clk = 0; // Initialize clock
         instruction_fetch_unit->eval(); // Evaluate the design
         instruction_fetch_unit->clk = 1; // Rising edge
         instruction_fetch_unit->eval(); // Evaluate the design
 
-        if (instruction_fetch_unit->instruction_out != instructions[test]) 
+        instruction_fetch_unit->last_alu_result = registerCValues[test]; // Set the last ALU result
+        instruction_fetch_unit->clk = 0; // Initialize clock
+        instruction_fetch_unit->eval(); // Evaluate the design
+        instruction_fetch_unit->clk = 1; // Rising edge
+        instruction_fetch_unit->eval(); // Evaluate the design
+
+        // std::cout << "Test " << std::dec << test << ": " << std::hex << instruction_fetch_unit->instruction_out << " : " << std::hex << instruction_fetch_unit_out[test] << std::endl;
+
+        if (instruction_fetch_unit->instruction_out != instruction_fetch_unit_out[test]) 
         {
-            std::cerr << "Error: Instruction output mismatch at test " << test << ". Expected: " << std::hex << instructions[test] << ", Got: " << std::hex << instruction_fetch_unit->instruction_out << std::endl;
+            std::cerr << "Error: Instruction output mismatch at test " << std::dec << test << ". Expected: " << std::hex << instruction_fetch_unit_out[test] << ", Got: " << std::hex << instruction_fetch_unit->instruction_out << std::endl;
             return 1;
         }
     }
