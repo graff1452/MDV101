@@ -12,10 +12,10 @@ int main()
     BittyEmulator emulator;
     bool j_type = false;
     emulator.LoadMemoryFromFile("/home/zhan/Desktop/MDV101/week13/lab18/generator/instructions.txt", 0);
-    for (int i = 0; i < NUM_INTS; i++)
-    {
-        std::cout << "Memory[" << std::dec << i << "]: " << std::hex << emulator.GetMemoryValue(i) << std::endl;
-    }
+    // for (int i = 0; i < NUM_INTS; i++)
+    // {
+    //     std::cout << "Memory[" << std::dec << i << "]: " << std::hex << emulator.GetMemoryValue(i) << std::endl;
+    // }
     std::cout << "Loaded instructions from file." << std::endl;
     std::cout << "Starting execution..." << std::endl;
 

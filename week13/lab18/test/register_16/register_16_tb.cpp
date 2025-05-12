@@ -1,6 +1,6 @@
 #include <iostream>
 #include "verilated.h"
-#include "Vregister.h"
+#include "Vregister_16.h"
 #include <cstdlib>
 #include <ctime>
 

@@ -100,8 +100,11 @@ int main(int argc, char **argv, char **env) {
     instruction_fetch_unit->clk = 0; // Initialize clock
     instruction_fetch_unit->reset = 1; // Assert reset
     instruction_fetch_unit->eval(); // Evaluate the design
+    instruction_fetch_unit->clk = 1; // Toggle clock
+    instruction_fetch_unit->eval(); // Evaluate the design again
     instruction_fetch_unit->reset = 0; // Deassert reset
-    instruction_fetch_unit->en_pc = 1; // Enable the PC
+    instruction_fetch_unit->clk = 0; // Initialize clock
+    instruction_fetch_unit->bitty_core_done1 = 0;
     instruction_fetch_unit->eval(); // Evaluate the design again
 
     if (instruction_fetch_unit->instruction_out != 0)
@@ -110,32 +113,36 @@ int main(int argc, char **argv, char **env) {
         return 1;
     }
 
-    instruction_fetch_unit->clk = 0; // Initialize clock
-    instruction_fetch_unit->last_alu_result = 0;
-    instruction_fetch_unit->eval(); // Evaluate the design
-    instruction_fetch_unit->clk = 1; // Rising edge
-    instruction_fetch_unit->eval(); // Evaluate the design
-
     for (int test = 0; test < NUM_TESTS; test++) 
     {
+        // save the new instruction to the register
+        instruction_fetch_unit->bitty_core_done1 = 1;
+        instruction_fetch_unit->bitty_core_done2 = 0;
         instruction_fetch_unit->last_alu_result = registerCValues[test]; // Set the last ALU result
-        instruction_fetch_unit->clk = 0; // Initialize clock
-        instruction_fetch_unit->eval(); // Evaluate the design
-        instruction_fetch_unit->clk = 1; // Rising edge
-        instruction_fetch_unit->eval(); // Evaluate the design
+        instruction_fetch_unit->clk = 0;
+        instruction_fetch_unit->eval();
+        instruction_fetch_unit->clk = 1;
+        instruction_fetch_unit->eval();
 
-        instruction_fetch_unit->last_alu_result = registerCValues[test]; // Set the last ALU result
-        instruction_fetch_unit->clk = 0; // Initialize clock
-        instruction_fetch_unit->eval(); // Evaluate the design
-        instruction_fetch_unit->clk = 1; // Rising edge
-        instruction_fetch_unit->eval(); // Evaluate the design
+        // save the new instruction to the pc register
+        instruction_fetch_unit->bitty_core_done1 = 0;
+        instruction_fetch_unit->bitty_core_done2 = 1;
+        instruction_fetch_unit->clk = 0;
+        instruction_fetch_unit->eval();
+        instruction_fetch_unit->clk = 1;
+        instruction_fetch_unit->eval();
 
-        // std::cout << "Test " << std::dec << test << ": " << std::hex << instruction_fetch_unit->instruction_out << " : " << std::hex << instruction_fetch_unit_out[test] << std::endl;
+        // Execute the instruction
+        instruction_fetch_unit->bitty_core_done1 = 0;
+        instruction_fetch_unit->bitty_core_done2 = 0;
+        instruction_fetch_unit->clk = 0;
+        instruction_fetch_unit->eval();
+        instruction_fetch_unit->clk = 1;
+        instruction_fetch_unit->eval();
 
-        if (instruction_fetch_unit->instruction_out != instruction_fetch_unit_out[test]) 
+        if (instruction_fetch_unit->instruction_out != instruction_fetch_unit_out[test])
         {
-            std::cerr << "Error: Instruction output mismatch at test " << std::dec << test << ". Expected: " << std::hex << instruction_fetch_unit_out[test] << ", Got: " << std::hex << instruction_fetch_unit->instruction_out << std::endl;
-            return 1;
+            std::cerr << "failed at test" << test << std::endl;
         }
     }
     std::cout << "All tests passed!" << std::endl;

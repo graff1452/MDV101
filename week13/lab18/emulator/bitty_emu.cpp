@@ -10,7 +10,7 @@ uint16_t BittyEmulator::Evaluate(uint16_t instruction)
     uint8_t     ALU_sel = (instruction >> 2)            & 0x07;
     uint16_t    immediate_value = (instruction >> 5)    & 0x00FF;
     uint8_t     condition = (instruction >> 2)          & 0x03;
-    if (format == 0x01) // I-type
+    if (format == 0b01) // I-type
     {
         switch (ALU_sel)
         {
@@ -37,7 +37,7 @@ uint16_t BittyEmulator::Evaluate(uint16_t instruction)
         register_c = registers_[Rx];
         pc_++;
     }
-    else if (format == 0x02) // J-type
+    else if (format == 0b10) // J-type
     {
         immediate_value = (instruction >> 4) & 0x0FFF;
         switch (condition)

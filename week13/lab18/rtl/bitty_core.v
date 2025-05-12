@@ -3,8 +3,9 @@ module bitty_core (
     input   wire        reset,
     input   wire        run,
     input   wire [15:0] instruction,
-    output  wire        done,
-    output  wire [15:0] last_alu_result
+    output  wire        done1,
+    output  wire        done2,
+    output  wire [15:0] last_alu_result 
 );
     // Control Unit Wires
     wire [2:0] sel;
@@ -21,6 +22,7 @@ module bitty_core (
     wire en_6;
     wire en_7;
     wire en_i;
+
 
     // Multiplexor Wires
     wire [15:0] mux_out;
@@ -59,71 +61,72 @@ module bitty_core (
                                .en_7(en_7),
                                .sel(sel),
                                .mux_sel(mux_sel),
-                               .done(done),
+                               .done1(done1),
+                               .done2(done2),
                                .imm_val(imm_val));
 
     // Register Instances
-    register Reg_Inst (.d_in(instruction),
+    register_16 Reg_Inst (.d_in(instruction),
                        .reset(reset),
                        .clk(clk),
                        .en(en_i),
                        .d_out(Reg_Inst_Out));
     
-    register Reg_S (.d_in(mux_out),
+    register_16 Reg_S (.d_in(mux_out),
                     .reset(reset),
                     .clk(clk),
                     .en(en_s),
                     .d_out(Reg_S_Out));
     
-    register Reg_C (.d_in(alu_out),
+    register_16 Reg_C (.d_in(alu_out),
                     .reset(reset),
                     .clk(clk),
                     .en(en_c),
                     .d_out(Reg_C_Out));
 
-    register Reg_0 (.d_in(Reg_C_Out),
+    register_16 Reg_0 (.d_in(Reg_C_Out),
                     .reset(reset),
                     .clk(clk),
                     .en(en_0),
                     .d_out(Reg_0_Out));
 
-    register Reg_1 (.d_in(Reg_C_Out),
+    register_16 Reg_1 (.d_in(Reg_C_Out),
                     .reset(reset),
                     .clk(clk),
                     .en(en_1),
                     .d_out(Reg_1_Out));
 
-    register Reg_2 (.d_in(Reg_C_Out),
+    register_16 Reg_2 (.d_in(Reg_C_Out),
                     .reset(reset),
                     .clk(clk),
                     .en(en_2),
                     .d_out(Reg_2_Out));
 
-    register Reg_3 (.d_in(Reg_C_Out),
+    register_16 Reg_3 (.d_in(Reg_C_Out),
                     .reset(reset),
                     .clk(clk),
                     .en(en_3),
                     .d_out(Reg_3_Out));
 
-    register Reg_4 (.d_in(Reg_C_Out),
+    register_16 Reg_4 (.d_in(Reg_C_Out),
                     .reset(reset),
                     .clk(clk),
                     .en(en_4),
                     .d_out(Reg_4_Out));
 
-    register Reg_5 (.d_in(Reg_C_Out),
+    register_16 Reg_5 (.d_in(Reg_C_Out),
                     .reset(reset),
                     .clk(clk),
                     .en(en_5),
                     .d_out(Reg_5_Out));
 
-    register Reg_6 (.d_in(Reg_C_Out),
+    register_16 Reg_6 (.d_in(Reg_C_Out),
                     .reset(reset),
                     .clk(clk),
                     .en(en_6),
                     .d_out(Reg_6_Out));
 
-    register Reg_7 (.d_in(Reg_C_Out),
+    register_16 Reg_7 (.d_in(Reg_C_Out),
                     .reset(reset),
                     .clk(clk),
                     .en(en_7),

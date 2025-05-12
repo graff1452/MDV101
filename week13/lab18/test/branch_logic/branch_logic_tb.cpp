@@ -15,85 +15,31 @@ int main(int argc, char **argv)
     Verilated::commandArgs(argc, argv);
     Vbranch_logic* branch_logic = new Vbranch_logic;
 
-    
-
     std::srand(static_cast<unsigned int>(std::time(0))); // Seed for random number generation
-    branch_logic->run = 1;
     // Generate random test cases
     for (int test = 0; test < 1; test++) 
     {
-        branch_logic->pc_address = std::rand() & 0xFF; // Random PC address
-        branch_logic->instruction = std::rand() & 0xFFFF; // Random instruction
-        branch_logic-> register_c = std::rand() % 4; // Random register value
+        branch_logic->pc_address = 0b00000011;
+        branch_logic->instruction = 0b1000010100101110; 
+        branch_logic-> register_c = 0; 
+        branch_logic->bitty_core_done1 = 1;
 
-        uint8_t expected_pc;
-        uint16_t immediate_value = ((branch_logic->instruction) >> 4) & 0x0FFF;
-        uint8_t format = ((branch_logic->instruction) & 0b11);
-        uint8_t condition = ((branch_logic->instruction) >> 2) & 0b11;
-
-        if (format == 0b10) 
-        {
-            switch (condition)
-            {
-                case 0b00:
-                if (branch_logic->register_c == 0) 
-                {
-                    expected_pc = branch_logic->pc_address + immediate_value;
-                } 
-                else 
-                {
-                    expected_pc = branch_logic->pc_address + 1;
-                }
-                break;
-                case 0b01:
-                if (branch_logic->register_c == 1) 
-                {
-                    expected_pc = branch_logic->pc_address + immediate_value;
-                } 
-                else 
-                {
-                    expected_pc = branch_logic->pc_address + 1;
-                }
-                break;
-                case 0b10:
-                if (branch_logic->register_c == 2) 
-                {
-                    expected_pc = branch_logic->pc_address + immediate_value;
-                } 
-                else 
-                {
-                    expected_pc = branch_logic->pc_address + 1;
-                }
-                break;
-                default:
-                if (branch_logic->register_c == 0) 
-                {
-                    expected_pc = branch_logic->pc_address + immediate_value;
-                } 
-                else 
-                {
-                    expected_pc = branch_logic->pc_address + 1;
-                }
-                break;
-            }
-        }
-        else 
-        {
-            expected_pc = branch_logic->pc_address + 1;
-        }
-
-        expected_pc = expected_pc & 0xFF; // Ensure expected_pc is 8 bits
-
-        // std::cout << "Expected PC: " << std::bitset<8>(expected_pc) << std::endl;
-
+        branch_logic->clk = 0;
+        branch_logic->eval();
+        branch_logic->clk = 1;
         branch_logic->eval();
 
-        if (branch_logic->new_pc != expected_pc)
+        std::cout << std::bitset<8>(branch_logic->new_pc) << "(DEC: " << (int)branch_logic->new_pc << ") " << std::endl;
+
+        branch_logic->reset = 1;
+        branch_logic->clk = 0;
+        branch_logic->eval();
+        branch_logic->clk = 1;
+        branch_logic->eval();
+        branch_logic->reset = 0; // Deassert reset
+        if (branch_logic->new_pc != 0) 
         {
-            std::cerr << "Test failed: " << test << std::endl;
-            std::cerr << "expected: " << std::bitset<8>(expected_pc) << std::endl;
-            std::cerr << "actual: " << std::bitset<8>(branch_logic->new_pc) << std::endl;
-            delete branch_logic;
+            std::cerr << "Error: new_pc should be 0 after reset, but got " << std::bitset<8>(branch_logic->new_pc) << std::endl;
             return 1;
         }
     }

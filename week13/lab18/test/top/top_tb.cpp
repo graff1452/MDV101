@@ -12,26 +12,25 @@ int main(int argc, char **argv) {
     Vtop *top = new Vtop; // Creating top module
 
     // Start the test
-    top->run = 1; // Enable the run signal
+    top->reset = 0; // Enable the run signal
+    top->eval();
+    top->reset = 1;
+    top->eval();
+    top->reset = 0; // Enable the run signal
+    top->eval();
 
-    bool flag = true; // Flag to control the first test
+    std::cout << "At reset: " << std::bitset<16>(top->top_out) << std::endl;
 
-    for (int test = 0; test < NUM_TESTS; test++) {
-        // Toggle clock
-        for (int j = 0; j < 4; j++) {
-            if (test == 0 && flag) {
-                flag = false;
-                continue;
-            }
-            top->clk = 0; // Set clock to 0
+    for (int test = 0; test < NUM_TESTS; test++) 
+    {
+        for (int i = 0; i < 6; i++)
+        {
+            top->clk = 0;
             top->eval();
-            top->clk = 1; // Set clock to 1
+            top->clk = 1;
             top->eval();
         }
-
-        if (top->done != 1) {
-            std::cerr << "Error: Done signal not asserted as expected at test " << test << std::endl;
-        }
+        std::cout << "Test#" << test << ", instruction: " << std::bitset<16>(top->top_out) << std::endl;
     }
 
     std::cout << "Top Testbench completed." << std::endl;

@@ -42,10 +42,10 @@ int main(int argc, char** argv)
     file.close();
 
     // Debug: Print loaded instructions
-    std::cout << "Loaded instructions:" << std::endl;
-    for (size_t i = 0; i < instructions.size(); i++) {
-        std::cout << "Instruction[" << i << "] = " << std::hex << instructions[i] << std::endl;
-    }
+    // std::cout << "Loaded instructions:" << std::endl;
+    // for (size_t i = 0; i < instructions.size(); i++) {
+    //     std::cout << "Instruction[" << i << "] = " << std::hex << instructions[i] << std::endl;
+    // }
 
 
 
@@ -72,6 +72,7 @@ int main(int argc, char** argv)
     for (int test = 0; test < NUM_TESTS; test++)
     {
         bitty_core->instruction = instructions[test]; // Set the instruction
+        std::cout << "last_alu_result = " << std::dec << bitty_core->last_alu_result << std::endl;
         for (int i = 0; i < 5; i++)
         {
             bitty_core->clk = 0;
@@ -79,7 +80,6 @@ int main(int argc, char** argv)
             bitty_core->clk = 1;
             bitty_core->eval();
         }
-        std::cout << "last_alu_result = " << std::dec << bitty_core->last_alu_result << std::endl;
     }
     delete bitty_core;
     return 0;
