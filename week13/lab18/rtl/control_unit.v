@@ -26,7 +26,7 @@ module control_unit (
     parameter EXECUTION_STATE   = 3'b011;
     parameter STORE_STATE       = 3'b100;
     parameter DELAY_STATE1      = 3'b101;
-    parameter DELAY_STATE2      = 3'b011;
+    parameter DELAY_STATE2      = 3'b110;
 
     parameter R_TYPE_INSTRUCTION = 2'b00;
     parameter I_TYPE_INSTRUCTION = 2'b01;

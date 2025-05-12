@@ -49,6 +49,30 @@ int main(int argc, char** argv)
 
 
 
+    std::ifstream inputFile("/home/zhan/Desktop/MDV101/week13/lab18/emulator/txt/register_c_values.txt");
+    if (!inputFile.is_open()) {
+        std::cerr << "Error: Could not open file for reading." << std::endl;
+        return 1;
+    }
+
+    std::vector<uint16_t> registerCValues;
+    uint16_t value;
+
+    // Read values from the file and store them in the vector
+    while (inputFile >> value) {
+        registerCValues.push_back(value);
+    }
+
+    inputFile.close();
+
+    // Output the values to verify Debug
+    // std::cout << "Values read from the file:" << std::endl;
+    // for (const auto& val : registerCValues) {
+    //     std::cout << val << std::endl;
+    // }
+
+
+
     bitty_core->reset = 1;
     bitty_core->clk = 0;
     bitty_core->eval();
@@ -58,28 +82,55 @@ int main(int argc, char** argv)
     bitty_core->run = 1;
     bitty_core->eval();
 
+    std::cout << "At reset: done1 = " << std::bitset<1>(bitty_core->done1) << ", done2 = " << std::bitset<1>(bitty_core->done2) << ", c = " << std::bitset<16>(bitty_core->last_alu_result) << std::endl;
+
     // Initialize signals
     std::cout << "Starting bitty_core Test with " << std::dec << NUM_TESTS << " iterations.\n";
 
-    for (int i = 0; i < 4; i++)
+
+    for (int test = 0; test < NUM_TESTS; test++)
     {
+        if (bitty_core->last_alu_result != registerCValues[test])
+        {
+            std::cerr << "error in test#" << test << std::endl;
+            return 1;
+        }
+        bitty_core->instruction = instructions[test];
         bitty_core->clk = 0;
         bitty_core->eval();
         bitty_core->clk = 1;
         bitty_core->eval();
-    }
+        std::cout << "Cycle#1 Test#" << test << ": done1 = " << std::bitset<1>(bitty_core->done1) << ", done2 = " << std::bitset<1>(bitty_core->done2) << ", c = " << std::bitset<16>(bitty_core->last_alu_result) << std::endl;
 
-    for (int test = 0; test < NUM_TESTS; test++)
-    {
-        bitty_core->instruction = instructions[test]; // Set the instruction
-        std::cout << "last_alu_result = " << std::dec << bitty_core->last_alu_result << std::endl;
-        for (int i = 0; i < 5; i++)
-        {
-            bitty_core->clk = 0;
-            bitty_core->eval();
-            bitty_core->clk = 1;
-            bitty_core->eval();
-        }
+        bitty_core->clk = 0;
+        bitty_core->eval();
+        bitty_core->clk = 1;
+        bitty_core->eval();
+        std::cout << "Cycle#2 Test#" << test << ": done1 = " << std::bitset<1>(bitty_core->done1) << ", done2 = " << std::bitset<1>(bitty_core->done2) << ", c = " << std::bitset<16>(bitty_core->last_alu_result) << std::endl;
+
+        bitty_core->clk = 0;
+        bitty_core->eval();
+        bitty_core->clk = 1;
+        bitty_core->eval();
+        std::cout << "Cycle#3 Test#" << test << ": done1 = " << std::bitset<1>(bitty_core->done1) << ", done2 = " << std::bitset<1>(bitty_core->done2) << ", c = " << std::bitset<16>(bitty_core->last_alu_result) << std::endl;
+
+        bitty_core->clk = 0;
+        bitty_core->eval();
+        bitty_core->clk = 1;
+        bitty_core->eval();
+        std::cout << "Cycle#4 Test#" << test << ": done1 = " << std::bitset<1>(bitty_core->done1) << ", done2 = " << std::bitset<1>(bitty_core->done2) << ", c = " << std::bitset<16>(bitty_core->last_alu_result) << std::endl;
+
+        bitty_core->clk = 0;
+        bitty_core->eval();
+        bitty_core->clk = 1;
+        bitty_core->eval();
+        std::cout << "Cycle#5 Test#" << test << ": done1 = " << std::bitset<1>(bitty_core->done1) << ", done2 = " << std::bitset<1>(bitty_core->done2) << ", c = " << std::bitset<16>(bitty_core->last_alu_result) << std::endl;
+
+        // bitty_core->clk = 0;
+        // bitty_core->eval();
+        // bitty_core->clk = 1;
+        // bitty_core->eval();
+        // std::cout << "Cycle#6 Test#" << test << ": done1 = " << std::bitset<1>(bitty_core->done1) << ", done2 = " << std::bitset<1>(bitty_core->done2) << ", c = " << std::bitset<16>(bitty_core->last_alu_result) << std::endl;
     }
     delete bitty_core;
     return 0;
