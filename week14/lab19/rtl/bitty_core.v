@@ -5,6 +5,14 @@ module bitty_core (
     input   wire [15:0] instruction,
     output  wire        done1,
     output  wire        done2,
+    output  wire [15:0] Reg_0_Out,
+    output  wire [15:0] Reg_1_Out,
+    output  wire [15:0] Reg_2_Out,
+    output  wire [15:0] Reg_3_Out,
+    output  wire [15:0] Reg_4_Out,
+    output  wire [15:0] Reg_5_Out,
+    output  wire [15:0] Reg_6_Out,
+    output  wire [15:0] Reg_7_Out,
     output  wire [15:0] last_alu_result 
 );
     // Control Unit Wires
@@ -31,14 +39,14 @@ module bitty_core (
     wire [15:0] Reg_Inst_Out;
     wire [15:0] Reg_S_Out;
     wire [15:0] Reg_C_Out;
-    wire [15:0] Reg_0_Out;
-    wire [15:0] Reg_1_Out;
-    wire [15:0] Reg_2_Out;
-    wire [15:0] Reg_3_Out;
-    wire [15:0] Reg_4_Out;
-    wire [15:0] Reg_5_Out;
-    wire [15:0] Reg_6_Out;
-    wire [15:0] Reg_7_Out;
+    // wire [15:0] Reg_0_Out;
+    // wire [15:0] Reg_1_Out;
+    // wire [15:0] Reg_2_Out;
+    // wire [15:0] Reg_3_Out;
+    // wire [15:0] Reg_4_Out;
+    // wire [15:0] Reg_5_Out;
+    // wire [15:0] Reg_6_Out;
+    // wire [15:0] Reg_7_Out;
 
     // Multiplexor2 Wires
     wire [15:0] mux2_out;
@@ -49,6 +57,9 @@ module bitty_core (
     wire [15:0] alu_out;
 
     assign last_alu_result = Reg_C_Out;
+
+    //Register wires
+    wire [15:0] register_memory_out;
 
     // Control Unit Instance
     control_unit myControlUnit (.run(run),

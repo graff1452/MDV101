@@ -17,6 +17,10 @@ int main(int argc, char** argv)
     Vregister_memory* myMemory = new Vregister_memory; // Creating memory
     std::srand(std::time(nullptr));
 
+
+    
+
+
     myMemory->run = 1;
     myMemory->instruction = std::rand() & 0xFFFF;
     myMemory->Reg_0 = std::rand() & 0xFFFF;
@@ -67,15 +71,14 @@ int main(int argc, char** argv)
                     << "Reg_5: " << std::bitset<16>(myMemory->Reg_5) << " (DEC: " << std::dec << myMemory->Reg_5 << ")" <<  std::endl
                     << "Reg_6: " << std::bitset<16>(myMemory->Reg_6) << " (DEC: " << std::dec << myMemory->Reg_6 << ")" <<  std::endl
                     << "Reg_7: " << std::bitset<16>(myMemory->Reg_7) << " (DEC: " << std::dec << myMemory->Reg_7 << ")" <<  std::endl
-                    // << "Reg_0_Out: " << std::bitset<16>(myMemory->Reg_0_Out) << " (DEC: " << std::dec << myMemory->Reg_0_Out << ")" <<  std::endl
-                    // << "Reg_1_Out: " << std::bitset<16>(myMemory->Reg_1_Out) << " (DEC: " << std::dec << myMemory->Reg_1_Out << ")" <<  std::endl
-                    // << "Reg_2_Out: " << std::bitset<16>(myMemory->Reg_2_Out) << " (DEC: " << std::dec << myMemory->Reg_2_Out << ")" <<  std::endl
-                    // << "Reg_3_Out: " << std::bitset<16>(myMemory->Reg_3_Out) << " (DEC: " << std::dec << myMemory->Reg_3_Out << ")" <<  std::endl
-                    // << "Reg_4_Out: " << std::bitset<16>(myMemory->Reg_4_Out) << " (DEC: " << std::dec << myMemory->Reg_4_Out << ")" <<  std::endl
-                    // << "Reg_5_Out: " << std::bitset<16>(myMemory->Reg_5_Out) << " (DEC: " << std::dec << myMemory->Reg_5_Out << ")" <<  std::endl
-                    // << "Reg_6_Out: " << std::bitset<16>(myMemory->Reg_6_Out) << " (DEC: " << std::dec << myMemory->Reg_6_Out << ")" <<  std::endl
-                    // << "Reg_7_Out: " << std::bitset<16>(myMemory->Reg_7_Out) << " (DEC: " << std::dec << myMemory->Reg_7_Out << ")" <<  std::endl
-                    << "en_rx: " << std::bitset<1>(myMemory->en_rx) << std::endl
+                    << "Reg_0_Out: " << std::bitset<16>(myMemory->Reg_0_Out) << " (DEC: " << std::dec << myMemory->Reg_0_Out << ")" <<  std::endl
+                    << "Reg_1_Out: " << std::bitset<16>(myMemory->Reg_1_Out) << " (DEC: " << std::dec << myMemory->Reg_1_Out << ")" <<  std::endl
+                    << "Reg_2_Out: " << std::bitset<16>(myMemory->Reg_2_Out) << " (DEC: " << std::dec << myMemory->Reg_2_Out << ")" <<  std::endl
+                    << "Reg_3_Out: " << std::bitset<16>(myMemory->Reg_3_Out) << " (DEC: " << std::dec << myMemory->Reg_3_Out << ")" <<  std::endl
+                    << "Reg_4_Out: " << std::bitset<16>(myMemory->Reg_4_Out) << " (DEC: " << std::dec << myMemory->Reg_4_Out << ")" <<  std::endl
+                    << "Reg_5_Out: " << std::bitset<16>(myMemory->Reg_5_Out) << " (DEC: " << std::dec << myMemory->Reg_5_Out << ")" <<  std::endl
+                    << "Reg_6_Out: " << std::bitset<16>(myMemory->Reg_6_Out) << " (DEC: " << std::dec << myMemory->Reg_6_Out << ")" <<  std::endl
+                    << "Reg_7_Out: " << std::bitset<16>(myMemory->Reg_7_Out) << " (DEC: " << std::dec << myMemory->Reg_7_Out << ")" <<  std::endl
                     << "out: " << std::bitset<16>(myMemory->out) << " (DEC: " << std::dec << myMemory->out << ")" <<  std::endl;
         myMemory->clk = 1;
         myMemory->eval();
@@ -91,15 +94,14 @@ int main(int argc, char** argv)
                     << "Reg_5: " << std::bitset<16>(myMemory->Reg_5) << " (DEC: " << std::dec << myMemory->Reg_5 << ")" <<  std::endl
                     << "Reg_6: " << std::bitset<16>(myMemory->Reg_6) << " (DEC: " << std::dec << myMemory->Reg_6 << ")" <<  std::endl
                     << "Reg_7: " << std::bitset<16>(myMemory->Reg_7) << " (DEC: " << std::dec << myMemory->Reg_7 << ")" <<  std::endl
-                    // << "Reg_0_Out: " << std::bitset<16>(myMemory->Reg_0_Out) << " (DEC: " << std::dec << myMemory->Reg_0_Out << ")" <<  std::endl
-                    // << "Reg_1_Out: " << std::bitset<16>(myMemory->Reg_1_Out) << " (DEC: " << std::dec << myMemory->Reg_1_Out << ")" <<  std::endl
-                    // << "Reg_2_Out: " << std::bitset<16>(myMemory->Reg_2_Out) << " (DEC: " << std::dec << myMemory->Reg_2_Out << ")" <<  std::endl
-                    // << "Reg_3_Out: " << std::bitset<16>(myMemory->Reg_3_Out) << " (DEC: " << std::dec << myMemory->Reg_3_Out << ")" <<  std::endl
-                    // << "Reg_4_Out: " << std::bitset<16>(myMemory->Reg_4_Out) << " (DEC: " << std::dec << myMemory->Reg_4_Out << ")" <<  std::endl
-                    // << "Reg_5_Out: " << std::bitset<16>(myMemory->Reg_5_Out) << " (DEC: " << std::dec << myMemory->Reg_5_Out << ")" <<  std::endl
-                    // << "Reg_6_Out: " << std::bitset<16>(myMemory->Reg_6_Out) << " (DEC: " << std::dec << myMemory->Reg_6_Out << ")" <<  std::endl
-                    // << "Reg_7_Out: " << std::bitset<16>(myMemory->Reg_7_Out) << " (DEC: " << std::dec << myMemory->Reg_7_Out << ")" <<  std::endl
-                    << "en_rx: " << std::bitset<1>(myMemory->en_rx) << std::endl
+                    << "Reg_0_Out: " << std::bitset<16>(myMemory->Reg_0_Out) << " (DEC: " << std::dec << myMemory->Reg_0_Out << ")" <<  std::endl
+                    << "Reg_1_Out: " << std::bitset<16>(myMemory->Reg_1_Out) << " (DEC: " << std::dec << myMemory->Reg_1_Out << ")" <<  std::endl
+                    << "Reg_2_Out: " << std::bitset<16>(myMemory->Reg_2_Out) << " (DEC: " << std::dec << myMemory->Reg_2_Out << ")" <<  std::endl
+                    << "Reg_3_Out: " << std::bitset<16>(myMemory->Reg_3_Out) << " (DEC: " << std::dec << myMemory->Reg_3_Out << ")" <<  std::endl
+                    << "Reg_4_Out: " << std::bitset<16>(myMemory->Reg_4_Out) << " (DEC: " << std::dec << myMemory->Reg_4_Out << ")" <<  std::endl
+                    << "Reg_5_Out: " << std::bitset<16>(myMemory->Reg_5_Out) << " (DEC: " << std::dec << myMemory->Reg_5_Out << ")" <<  std::endl
+                    << "Reg_6_Out: " << std::bitset<16>(myMemory->Reg_6_Out) << " (DEC: " << std::dec << myMemory->Reg_6_Out << ")" <<  std::endl
+                    << "Reg_7_Out: " << std::bitset<16>(myMemory->Reg_7_Out) << " (DEC: " << std::dec << myMemory->Reg_7_Out << ")" <<  std::endl
                     << "out: " << std::bitset<16>(myMemory->out) << " (DEC: " << std::dec << myMemory->out << ")" <<  std::endl;
     }       
 

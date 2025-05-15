@@ -122,7 +122,6 @@ int main()
         std::cout << "Register 5: " << std::hex << std::bitset<16>(emulator.GetRegisterValue(5)) << " (DEC: " << std::dec << emulator.GetRegisterValue(5) << ") (HEX: " << std::hex << emulator.GetRegisterValue(5) << ")" << std::endl;
         std::cout << "Register 6: " << std::hex << std::bitset<16>(emulator.GetRegisterValue(6)) << " (DEC: " << std::dec << emulator.GetRegisterValue(6) << ") (HEX: " << std::hex << emulator.GetRegisterValue(6) << ")" << std::endl; 
         std::cout << "Register 7: " << std::hex << std::bitset<16>(emulator.GetRegisterValue(7)) << " (DEC: " << std::dec << emulator.GetRegisterValue(7) << ") (HEX: " << std::hex << emulator.GetRegisterValue(7) << ")" << std::endl << std::endl;
-
         emulator.Step();
     }
     // Close the file

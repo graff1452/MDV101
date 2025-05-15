@@ -8,10 +8,9 @@ module mux2 (
     assign mux2_out = reg_mux2_out;
     always @(*) 
     begin
-        case (mux_sel)
+        case (mux2_sel)
             1'b0: reg_mux2_out = in_0;
             1'b1: reg_mux2_out = in_1;
-            default: reg_mux_out = 16'h0000;
         endcase
     end
 endmodule

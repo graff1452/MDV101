@@ -144,13 +144,15 @@ module control_unit (
                 case (instruction_format)
                     R_TYPE_INSTRUCTION:
                     begin
-                        reg_en_s    = 1'b1;
-                        reg_mux_sel = {1'b0, first_operand};
+                        reg_en_s        = 1'b1;
+                        reg_mux_sel     = {1'b0, first_operand};
+                        reg_mux2_sel    = 1'b0;
                     end
                     I_TYPE_INSTRUCTION:
                     begin
-                        reg_en_s    = 1'b1;
-                        reg_mux_sel = {1'b0, first_operand};
+                        reg_en_s        = 1'b1;
+                        reg_mux_sel     = {1'b0, first_operand};
+                        reg_mux2_sel    = 1'b0;
                     end
                     J_TYPE_INSTRUCTION:
                     begin
@@ -158,7 +160,9 @@ module control_unit (
                     end
                     LOAD_STORE_TYPE_INSTRUCTION:
                     begin
-                        // Defalus values are assigned here
+                        reg_en_register_memory  = 1'b1;
+                        reg_en_m                = 1'b0;
+                        reg_mux2_sel            = 1'b1;
                     end
                     default:
                     begin
@@ -169,17 +173,19 @@ module control_unit (
                 case (instruction_format)
                     R_TYPE_INSTRUCTION: 
                     begin
-                        reg_mux_sel = {1'b0, second_operand};
-                        reg_imm_val = 16'b0;
-                        reg_en_c = 1'b1;
-                        reg_sel = alu_selection;
+                        reg_mux_sel     = {1'b0, second_operand};
+                        reg_imm_val     = 16'b0;
+                        reg_en_c        = 1'b1;
+                        reg_sel         = alu_selection;
+                        reg_mux2_sel    = 1'b0;
                     end
                     I_TYPE_INSTRUCTION:
                     begin
-                        reg_mux_sel = 4'b1000;
-                        reg_imm_val = {8'b00000000, immediate_value};
-                        reg_en_c = 1'b1;
-                        reg_sel = alu_selection;
+                        reg_mux_sel     = 4'b1000;
+                        reg_imm_val     = {8'b00000000, immediate_value};
+                        reg_en_c        = 1'b1;
+                        reg_sel         = alu_selection;
+                        reg_mux2_sel    = 1'b0;
                     end
                     J_TYPE_INSTRUCTION:
                     begin
@@ -189,6 +195,7 @@ module control_unit (
                     begin
                         reg_en_register_memory  = 1'b1;
                         reg_en_m                = 1'b1;
+                        reg_mux2_sel            = 1'b1;
                     end
                     default:
                     begin
@@ -200,6 +207,7 @@ module control_unit (
                     case (instruction_format)
                         R_TYPE_INSTRUCTION:
                         begin
+                            reg_mux2_sel = 1'b0;
                             case (first_operand) 
                                 3'b000: reg_en_0 = 1'b1;
                                 3'b001: reg_en_1 = 1'b1;
@@ -210,10 +218,10 @@ module control_unit (
                                 3'b110: reg_en_6 = 1'b1;
                                 3'b111: reg_en_7 = 1'b1;
                             endcase
-                            reg_mux2_sel = 1'b0;
                         end
                         I_TYPE_INSTRUCTION:
                         begin
+                            reg_mux2_sel = 1'b0;
                             case (first_operand) 
                                 3'b000: reg_en_0 = 1'b1;
                                 3'b001: reg_en_1 = 1'b1;
@@ -224,7 +232,6 @@ module control_unit (
                                 3'b110: reg_en_6 = 1'b1;
                                 3'b111: reg_en_7 = 1'b1;
                             endcase
-                            reg_mux2_sel = 1'b0;
                         end
                         J_TYPE_INSTRUCTION:
                         begin
@@ -234,6 +241,7 @@ module control_unit (
                         begin
                             if (ls == 1'b0) 
                             begin
+                                reg_mux2_sel = 1'b1;
                                 case (first_operand) 
                                     3'b000: reg_en_0 = 1'b1;
                                     3'b001: reg_en_1 = 1'b1;
@@ -245,7 +253,10 @@ module control_unit (
                                     3'b111: reg_en_7 = 1'b1;
                                 endcase
                             end
-                            reg_mux2_sel = 1'b1;
+                            else 
+                            begin
+                                reg_mux2_sel = 1'b0;
+                            end
                         end
                     endcase
                     reg_done1 = 1'b1;

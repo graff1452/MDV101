@@ -39,6 +39,7 @@ uint16_t BittyEmulator::Evaluate(uint16_t instruction)
     }
     else if (format == 0b01) // I-type
     {
+        immediate_value = (instruction >> 5)    & 0x00FF;
         switch (ALU_sel)
         {
             case 0b000: registers_[Rx] = registers_[Rx] +   immediate_value;        break; 
