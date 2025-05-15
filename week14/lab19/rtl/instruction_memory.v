@@ -1,4 +1,4 @@
-module insturction_memory (
+module instruction_memory (
     input   wire clk,
     input   wire [7:0] address,
     output  wire [15:0] out
