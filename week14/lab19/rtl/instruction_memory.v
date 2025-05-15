@@ -1,4 +1,4 @@
-module memory (
+module insturction_memory (
     input   wire clk,
     input   wire [7:0] address,
     output  wire [15:0] out
@@ -10,7 +10,7 @@ module memory (
 
     initial 
     begin
-        $readmemh("/home/zhan/Desktop/MDV101/week13/lab18/generator/instructions.txt", memory_cell);
+        $readmemh("/home/zhan/Desktop/MDV101/week14/lab19/generator/instructions.txt", memory_cell);
     end
 
     always @(posedge clk) 

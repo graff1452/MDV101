@@ -126,11 +126,11 @@ int main(int argc, char** argv)
         bitty_core->eval();
         std::cout << "Cycle#5 Test#" << test << ": done1 = " << std::bitset<1>(bitty_core->done1) << ", done2 = " << std::bitset<1>(bitty_core->done2) << ", c = " << std::bitset<16>(bitty_core->last_alu_result) << std::endl;
 
-        // bitty_core->clk = 0;
-        // bitty_core->eval();
-        // bitty_core->clk = 1;
-        // bitty_core->eval();
-        // std::cout << "Cycle#6 Test#" << test << ": done1 = " << std::bitset<1>(bitty_core->done1) << ", done2 = " << std::bitset<1>(bitty_core->done2) << ", c = " << std::bitset<16>(bitty_core->last_alu_result) << std::endl;
+        bitty_core->clk = 0;
+        bitty_core->eval();
+        bitty_core->clk = 1;
+        bitty_core->eval();
+        std::cout << "Cycle#6 Test#" << test << ": done1 = " << std::bitset<1>(bitty_core->done1) << ", done2 = " << std::bitset<1>(bitty_core->done2) << ", c = " << std::bitset<16>(bitty_core->last_alu_result) << std::endl;
     }
     delete bitty_core;
     return 0;

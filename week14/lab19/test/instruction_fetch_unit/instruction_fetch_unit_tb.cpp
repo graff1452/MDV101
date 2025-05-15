@@ -140,6 +140,8 @@ int main(int argc, char **argv, char **env) {
         instruction_fetch_unit->clk = 1;
         instruction_fetch_unit->eval();
 
+        std::cout << std::dec << test << ", " << std::hex << instruction_fetch_unit->instruction_out << std::endl;
+
         if (instruction_fetch_unit->instruction_out != instruction_fetch_unit_out[test])
         {
             std::cerr << "failed at test" << test << std::endl;

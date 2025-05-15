@@ -35,7 +35,7 @@ module instruction_fetch_unit (
     );
 
     // Memory Module
-    memory my_memory (  
+    insturction_memory my_memory (  
         .clk(clk),
         .address(pc_out),
         .out(memory_out)

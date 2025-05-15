@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include "verilated.h"
-#include "Vmemory.h"
+#include "Vinstruction_memory.h"
 #include <cstdlib>
 #include <cstdint>
 
@@ -12,7 +12,7 @@
 int main(int argc, char** argv)
 {
     Verilated::commandArgs(argc, argv);
-    Vmemory* myMemory = new Vmemory; // Creating memory
+    Vinstruction_memory* myMemory = new Vinstruction_memory; // Creating memory
 
     int clk;
     uint8_t address;

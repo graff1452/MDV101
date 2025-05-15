@@ -71,6 +71,7 @@ int main(int argc, char **argv) {
         if (top->top_out != instructions[test])
         {
             std::cerr << "error in test#" << test << std::endl;
+            std::cerr << "instruction should be: " << std::hex << instructions[test] << ", got: " << (top->top_out) << std::endl;
             return 1;
         }
     }
